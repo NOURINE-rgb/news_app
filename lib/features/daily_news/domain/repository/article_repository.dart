@@ -1,6 +1,7 @@
-import 'package:clean_news_app/core/resources/data_state.dart';
+import 'package:clean_news_app/core/errors/failures.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
+import "package:dartz/dartz.dart";
 
 abstract class ArticleRepository {
-  Future<DataState<List<ArticleEntity>>> getNewArticle();
+  Future<Either<Failure,List<ArticleEntity>>> getWallStreetArticles();
 }
