@@ -1,6 +1,6 @@
 import 'package:clean_news_app/config/theme/app_theme.dart';
 import 'package:clean_news_app/core/service/dependency_injection.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/home_page.dart';
+import 'package:clean_news_app/features/daily_news/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: theme(),
-      home: HomePage(),
+      home: WelcomePage(),
     );
   }
 }

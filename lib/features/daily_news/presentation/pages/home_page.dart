@@ -1,5 +1,7 @@
+import 'package:clean_news_app/features/daily_news/presentation/pages/discover_page.dart';
+import 'package:clean_news_app/features/daily_news/presentation/pages/favorites_page.dart';
+import 'package:clean_news_app/features/daily_news/presentation/pages/trending_page.dart';
 import 'package:clean_news_app/features/daily_news/presentation/riverpod/home_page_provider.dart';
-import 'package:clean_news_app/features/daily_news/presentation/riverpod/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,9 +36,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         onPageChanged: (value) =>
             ref.read(homePageProvider.notifier).changeIndex(value),
         children: [
-          // 3 screens
+          TrendingPage(),
+          FavoritesPage(),
+          DiscoverPage(),
         ],
       ),
+      // i will test this tomorow if it works or no
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: pageIndex,
         onTap: (value) => _pageController.jumpToPage(value),
