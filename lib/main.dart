@@ -3,9 +3,12 @@ import 'package:clean_news_app/core/service/dependency_injection.dart';
 import 'package:clean_news_app/features/daily_news/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   setupLocator();
+  // this to ensure that the fonts it's loaded before the app run in slower internet
+  GoogleFonts.commissioner();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: theme(),
+      theme: AppTheme.lightTheme(),
       home: WelcomePage(),
     );
   }
