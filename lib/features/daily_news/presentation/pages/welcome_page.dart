@@ -8,7 +8,6 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // here i will work by mediaquery to nedi noss ta3 screen
 
       body: Stack(
         children: [
@@ -28,7 +27,7 @@ class WelcomePage extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppColors.backgroundLight,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -39,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                     "Get The Latest News\nAnd Updates",
                     textAlign: TextAlign.center,
                     style: AppTextStyles.textStyle(
-                        color: AppColors.primaryColorLight,
+                        color: AppColors.darkColor,
                         fontSize: FontSize.s34,
                         fontWeight: FontManager.bold),
                   ),
@@ -47,7 +46,7 @@ class WelcomePage extends StatelessWidget {
                     "From Politics to Entertainment: Your One-\nStop Source for Comprehensive Coverage\n of the Latest News and Developments\n Across the Glob will be right on your hand.",
                     textAlign: TextAlign.center,
                     style: AppTextStyles.textStyle(
-                        color: AppColors.textColorLight,
+                        color: AppColors.greyColor,
                         fontSize: FontSize.s16,
                         fontWeight: FontManager.regular),
                   ),
@@ -57,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                     label: Text(
                       "Explore",
                       style: AppTextStyles.textStyle(
-                          color: AppColors.primaryColorDark,
+                          color: AppColors.white,
                           fontSize: FontSize.s20,
                           fontWeight: FontManager.semiBold),
                     ),

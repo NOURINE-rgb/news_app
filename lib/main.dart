@@ -1,4 +1,4 @@
-import 'package:clean_news_app/config/theme/app_theme.dart';
+import 'package:clean_news_app/config/theme/theme_manager.dart';
 import 'package:clean_news_app/core/service/dependency_injection.dart';
 import 'package:clean_news_app/features/daily_news/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';

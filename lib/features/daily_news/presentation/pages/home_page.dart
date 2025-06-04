@@ -17,12 +17,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(); // Initialize PageController
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
-    _pageController.dispose(); // Don't forget to dispose of the controller
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -37,7 +37,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ref.read(homePageProvider.notifier).changeIndex(value),
         children: [
           TrendingPage(),
-          FavoritesPage(),
+          ArticleDetailPage(),
           DiscoverPage(),
         ],
       ),

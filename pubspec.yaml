@@ -38,11 +38,12 @@ dependencies:
   get_it: ^8.0.3
   intl: ^0.20.2
   equatable: ^2.0.7
-  floor: ^1.5.0
   cached_network_image: ^3.4.1
   dio: ^5.7.0
   dartz: ^0.10.1
   google_fonts: ^6.2.1
+  flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -97,3 +98,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  color: "#FFFFFF" 
+  image: assets/images/main_logo.png 
+  android: true
+  ios: true
+  android_gravity: center  # Logo position (center, top, bottom, etc.)
+  ios_content_mode: center  # Same for iOS
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/main_logo.png"
