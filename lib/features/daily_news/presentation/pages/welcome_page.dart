@@ -1,4 +1,4 @@
-import "package:clean_news_app/config/theme/app_colors.dart";
+import "package:clean_news_app/config/theme/color_manager.dart";
 import "package:clean_news_app/config/theme/app_text_style.dart";
 import "package:clean_news_app/config/theme/sizes.dart";
 import "package:flutter/material.dart";
@@ -27,7 +27,7 @@ class WelcomePage extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: ColorManager.white,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
@@ -35,18 +35,18 @@ class WelcomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "Get The Latest News\nAnd Updates",
+                    ,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.textStyle(
-                        color: AppColors.darkColor,
+                        color: ColorManager.darkColor,
                         fontSize: FontSize.s34,
                         fontWeight: FontManager.bold),
                   ),
                   Text(
-                    "From Politics to Entertainment: Your One-\nStop Source for Comprehensive Coverage\n of the Latest News and Developments\n Across the Glob will be right on your hand.",
+                    ,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.textStyle(
-                        color: AppColors.greyColor,
+                        color: ColorManager.greyColor,
                         fontSize: FontSize.s16,
                         fontWeight: FontManager.regular),
                   ),
@@ -56,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                     label: Text(
                       "Explore",
                       style: AppTextStyles.textStyle(
-                          color: AppColors.white,
+                          color: ColorManager.white,
                           fontSize: FontSize.s20,
                           fontWeight: FontManager.semiBold),
                     ),

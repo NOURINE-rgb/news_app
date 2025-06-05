@@ -1,4 +1,4 @@
-import 'package:clean_news_app/core/constants/api_connstants.dart';
+import 'package:clean_news_app/core/network/api_connstants.dart';
 import 'package:clean_news_app/core/errors/exceptions.dart';
 import 'package:clean_news_app/core/use_cases/base_usecase.dart';
 import 'package:clean_news_app/features/daily_news/data/models/article.dart';

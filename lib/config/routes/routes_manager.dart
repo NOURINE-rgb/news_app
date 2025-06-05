@@ -1,3 +1,4 @@
+import 'package:clean_news_app/core/constants/strings_manager.dart';
 import 'package:clean_news_app/features/daily_news/presentation/pages/discover_page.dart';
 import 'package:clean_news_app/features/daily_news/presentation/pages/favorites_page.dart';
 import 'package:clean_news_app/features/daily_news/presentation/pages/home_page.dart';
@@ -37,7 +38,7 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         body: Center(
-          child: Text("Route Not Found"),
+          child: Text(AppStrings.noRouteFound),
         ),
       ),
     );
