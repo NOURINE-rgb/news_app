@@ -25,17 +25,4 @@ class ColorManager {
   static const Color textOnPrimary = Color(0xFFFFFFFF);
 }
 
-extension AppColorsExtension on ColorManager {
-  static ColorScheme get lightColorScheme => const ColorScheme.light(
-        primary: ColorManager.primary,
-        secondary: ColorManager.primaryLight,
-        surface: ColorManager.backgroundLight,
-        background: ColorManager.backgroundLight,
-        error: ColorManager.error,
-        onPrimary: ColorManager.textOnPrimary,
-        onSecondary: ColorManager.textPrimary,
-        onSurface: ColorManager.textPrimary,
-        onBackground: ColorManager.textPrimary,
-        onError: ColorManager.white,
-      );
-}
+

@@ -2,9 +2,10 @@ import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
-
+import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 
 ThemeData getAppTheme() => ThemeData(
       useMaterial3: true,
@@ -51,7 +52,7 @@ ThemeData getAppTheme() => ThemeData(
         // Body Paragraphs
         bodyLarge: getRegularStyle(
           fontSize: FontSize.s16,
-          color: ColorManager.textPrimary,
+          color: ColorManager.textSecondary,
         ).copyWith(height: 1.5),
 
         // Subheadings, Tags, etc.

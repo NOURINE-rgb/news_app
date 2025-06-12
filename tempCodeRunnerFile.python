@@ -1,0 +1,83 @@
+from docx import Document
+from docx.shared import Inches
+from fpdf import FPDF
+
+# Define the content of the CV
+cv_text = """
+Nourine Mohamed Yacine
+📞 0553866110    ✉️ mohamednourine382@gmail.com
+🔗 https://www.linkedin.com/in/yacine-nourine-403a522a6/    💻 https://github.com/NOURINE-rgb
+
+---
+
+Professional Summary
+Motivated and detail-oriented computer science student at ESI SBA with a strong foundation in object-oriented programming and problem solving. Currently focused on mastering the MVVM pattern with Clean Architecture in Flutter. Experienced in building mobile apps using Flutter and Firebase, and starting Django to strengthen backend skills.
+
+---
+
+Education
+École Nationale Supérieure d'Informatique (ESI SBA)
+Bachelor’s Degree in Computer Science (In Progress)
+2022 – 2028
+- Completed 2 years, entering the third year
+- Strong background in algorithms, software design, and system fundamentals
+
+---
+
+Technical Skills
+- Frontend: Flutter, Dart, Clean Architecture, MVVM, Riverpod, Dio
+- Backend: Firebase, SQL (basic knowledge, learning more)
+- Languages: Python, C++, Java
+- Tools: Git, GitHub, Postman, Figma (collaboration)
+- Concepts: OOP, Problem Solving, REST APIs, State Management
+
+---
+
+Projects
+Darek – Home Services Mobile App
+Flutter Developer
+- Built both the customer and provider versions of the app using Flutter
+- Integrated map features to display and manage service requests
+- Developed real-time booking logic and a price suggestion modal
+- Applied MVVM and Clean Architecture principles for maintainable code
+- Collaborated with team members using Git and REST API integration
+
+---
+
+Certifications
+Flutter & Dart – The Complete Guide [2024 Edition]
+Udemy – Maximilian Schwarzmüller (Academind)
+Date: October 25, 2024 • Duration: 30 hours
+
+---
+
+Languages
+- Arabic: Native
+- English: Intermediate
+- French: Intermediate
+"""
+
+# Create a PDF
+pdf = FPDF()
+pdf.add_page()
+pdf.set_auto_page_break(auto=True, margin=15)
+pdf.set_font("Arial", size=12)
+
+# Add content line by line
+for line in cv_text.strip().split('\n'):
+    line = line.strip()
+    if line == "---":
+        pdf.ln(5)
+        pdf.set_draw_color(0, 0, 0)
+        pdf.cell(0, 1, '', ln=1, border='T')
+        pdf.ln(5)
+    elif line:
+        pdf.multi_cell(0, 10, line)
+    else:
+        pdf.ln(5)
+
+# Save the PDF
+output_path = "/mnt/data/Nourine_Mohamed_Yacine_CV.pdf"
+pdf.output(output_path)
+
+output_path

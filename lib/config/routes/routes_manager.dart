@@ -1,14 +1,14 @@
-import 'package:clean_news_app/core/constants/strings_manager.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/discover_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/favorites_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/home_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/trending_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/welcome_page.dart';
+import 'package:clean_news_app/core/helpers/strings_manager.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/favorites_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/trending_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
   static const String splashRoute = "/";
-  static const String welcomeRoute = "/welcome";
+  static const String onboardingRoute = "/onboarding";
   static const String discoverRoute = "/discover";
   static const String homeRoute = "/home";
   static const String trendingRoute = "/trending";
@@ -18,16 +18,16 @@ class Routes {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.welcomeRoute:
-        return MaterialPageRoute(builder: (_) => WelcomePage());
+      case Routes.onboardingRoute:
+        return MaterialPageRoute(builder: (_) => OboardingScreen());
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case Routes.trendingRoute:
-        return MaterialPageRoute(builder: (_) => TrendingPage());
+        return MaterialPageRoute(builder: (_) => TrendingScreen());
       case Routes.discoverRoute:
-        return MaterialPageRoute(builder: (_) => DiscoverPage());
+        return MaterialPageRoute(builder: (_) => DiscoverScreen());
       case Routes.detailsRoute:
-        return MaterialPageRoute(builder: (_) => ArticleDetailPage());
+        return MaterialPageRoute(builder: (_) => ArticleDetailScreen());
       // il reste the custom splash screen
       default:
         return unDefinedRoute();
@@ -38,7 +38,7 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         body: Center(
-          child: Text(AppStrings.noRouteFound),
+          child: Text(StringsManager.noRouteFound),
         ),
       ),
     );

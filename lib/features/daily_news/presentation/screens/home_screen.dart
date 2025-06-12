@@ -1,17 +1,17 @@
-import 'package:clean_news_app/features/daily_news/presentation/pages/discover_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/favorites_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/pages/trending_page.dart';
-import 'package:clean_news_app/features/daily_news/presentation/riverpod/home_page_provider.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/favorites_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/trending_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/providers/home_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  ConsumerState<HomeScreen> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends ConsumerState<HomeScreen> {
   late PageController _pageController;
 
   @override
@@ -36,9 +36,9 @@ class _HomePageState extends ConsumerState<HomePage> {
         onPageChanged: (value) =>
             ref.read(homePageProvider.notifier).changeIndex(value),
         children: [
-          TrendingPage(),
-          ArticleDetailPage(),
-          DiscoverPage(),
+          TrendingScreen(),
+          ArticleDetailScreen(),
+          DiscoverScreen(),
         ],
       ),
       // i will test this tomorow if it works or no
