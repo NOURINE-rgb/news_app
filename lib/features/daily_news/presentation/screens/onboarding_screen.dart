@@ -1,7 +1,8 @@
 import "package:clean_news_app/config/theme/color_manager.dart";
 import "package:clean_news_app/config/theme/values_manager.dart";
-import "package:clean_news_app/core/helpers/assets_manager.dart";
-import "package:clean_news_app/core/helpers/strings_manager.dart";
+import "package:clean_news_app/core/constants/assets_manager.dart";
+import "package:clean_news_app/core/constants/strings_manager.dart";
+import "package:clean_news_app/core/helpers/extensions.dart";
 import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 
@@ -13,7 +14,7 @@ class OboardingScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height - 200,
+            height: context.sizeHeight - 200,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(AssetsManager.backgroundImage),
@@ -25,7 +26,7 @@ class OboardingScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 400.h,
-              width: double.infinity.w,
+              width: double.infinity,
               padding: EdgeInsets.all(AppPadding.p24.sp),
               decoration: BoxDecoration(
                 color: ColorManager.white,
@@ -37,11 +38,11 @@ class OboardingScreen extends StatelessWidget {
                 children: [
                   Text(StringsManager.onboardingScreenTitle,
                       textAlign: TextAlign.center,
-                      style: TextTheme.of(context).headlineSmall),
+                      style: Theme.of(context).textTheme.headlineSmall),
                   Text(
                     StringsManager.onboardingScreentext,
                     textAlign: TextAlign.center,
-                    style: TextTheme.of(context).titleLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
@@ -50,7 +51,10 @@ class OboardingScreen extends StatelessWidget {
                     icon: Icon(Icons.arrow_forward_outlined),
                     label: Text(
                       StringsManager.oboardingScreenTextButton,
-                      style: TextTheme.of(context).bodyLarge,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: ColorManager.textOnPrimary),
                     ),
                     iconAlignment: IconAlignment.end,
                   ),

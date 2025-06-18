@@ -79,7 +79,7 @@ ThemeData getAppTheme() => ThemeData(
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: ColorManager.cardBackground,
         elevation: 2,
         shadowColor: ColorManager.lightGrey,

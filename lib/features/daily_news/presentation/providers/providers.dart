@@ -1,4 +1,4 @@
-import 'package:clean_news_app/core/helpers/constants_var.dart';
+import 'package:clean_news_app/core/constants/constants_var.dart';
 import 'package:clean_news_app/core/errors/failures.dart';
 import 'package:clean_news_app/core/service/dependency_injection.dart';
 import 'package:clean_news_app/core/use_cases/base_usecase.dart';
