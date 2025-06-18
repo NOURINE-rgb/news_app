@@ -7,7 +7,7 @@ class TrendingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
-        child: Text("screen1"),
+        child: Text("screen2"),
       ),
     );
   }

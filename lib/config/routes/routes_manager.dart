@@ -1,13 +1,15 @@
 import 'package:clean_news_app/core/constants/strings_manager.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/favorites_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/news_holder_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/trending_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
   static const String splashRoute = "/";
+  static const String holderRoutes = "/holder_screen";
   static const String onboardingRoute = "/onboarding";
   static const String discoverRoute = "/discover";
   static const String homeRoute = "/home";
@@ -20,6 +22,8 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.onboardingRoute:
         return MaterialPageRoute(builder: (_) => OboardingScreen());
+      case Routes.holderRoutes:
+        return MaterialPageRoute(builder: (_) => NewsHolderScreen());
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case Routes.trendingRoute:

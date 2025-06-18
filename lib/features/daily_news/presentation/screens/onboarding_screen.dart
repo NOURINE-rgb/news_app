@@ -1,3 +1,4 @@
+import "package:clean_news_app/config/routes/routes_manager.dart";
 import "package:clean_news_app/config/theme/color_manager.dart";
 import "package:clean_news_app/config/theme/values_manager.dart";
 import "package:clean_news_app/core/constants/assets_manager.dart";
@@ -46,7 +47,7 @@ class OboardingScreen extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      //todo : go to home page
+                      context.pushNamed(Routes.holderRoutes);
                     },
                     icon: Icon(Icons.arrow_forward_outlined),
                     label: Text(
