@@ -25,5 +25,24 @@ class ArticleModel extends ArticleEntity {
       content: json["content"] ?? "",
     );
   }
-  
+}
+
+class NewsResponse{
+  final String status;
+  final int totalResults;
+  final List<ArticleModel> articles;
+  const NewsResponse({
+    required this.status,
+    required this.totalResults,
+    required this.articles,
+  });
+  factory NewsResponse.fromJson(Map<String, dynamic> json) {
+    return NewsResponse(
+      status: json["status"],
+      totalResults: json["totalResults"],
+      articles: (json["articles"] as List?)
+          ?.map((article) => ArticleModel.fromJson(article))
+          .toList() ?? [],
+    );
+  }
 }
