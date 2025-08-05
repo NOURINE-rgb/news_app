@@ -54,4 +54,3 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
   }
 }
-// b9ali nbayn naw3 error men failure yla server wla ....

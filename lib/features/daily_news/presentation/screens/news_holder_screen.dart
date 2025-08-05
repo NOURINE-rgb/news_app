@@ -42,12 +42,6 @@ class _NewsHolderScreenState extends State<NewsHolderScreen> {
         inactiveColorPrimary: ColorManager.mediumGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.trending_up),
-        title: "Trending",
-        activeColorPrimary: ColorManager.primary,
-        inactiveColorPrimary: ColorManager.mediumGrey,
-      ),
-      PersistentBottomNavBarItem(
         icon: const Icon(Icons.search),
         title: "Discover",
         activeColorPrimary: ColorManager.primary,
