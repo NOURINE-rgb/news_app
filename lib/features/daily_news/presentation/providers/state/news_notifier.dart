@@ -10,6 +10,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
   final GetBreakingNewsArticleUseCase getBreakingNewsArticle;
   NewsNotifier(this.getRecommendedArticle, this.getBreakingNewsArticle)
       : super(NewsInitialState());
+
   Future<void> loadAllNews() async {
     state = NewsLoadingState();
     try {

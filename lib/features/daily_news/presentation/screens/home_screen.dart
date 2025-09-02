@@ -8,8 +8,9 @@ import 'package:clean_news_app/features/daily_news/domain/entities/article.dart'
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
-import 'package:clean_news_app/features/daily_news/presentation/widgets/recommended_card.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/section_header.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -75,9 +76,10 @@ Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
           verticalSpace(AppSize.s20.sp),
           // i will change this to send the selected category to the datasource folder
           SizedBox(height: 40.sp, child: const CategoriesChips()),
-          
+
           SectionHeader(
               title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
+          _buildBreakingNewsList(newsState.breakingArticles),
         ],
       ),
     ),
@@ -96,9 +98,21 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
           width: context.sizeWidth * 0.7,
           margin: EdgeInsets.only(
               right: AppMargine.m12.sp, bottom: AppMargine.m8.sp),
-          child: RecommendedNewsCard(article),
+          child: HorizontalNewsCard(article),
         );
       },
     ),
+  );
+} 
+
+Widget _buildBreakingNewsList(List<ArticleEntity> news) {
+  return ListView.separated(
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: news.length,
+    separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
+    itemBuilder: (context, index) {
+      return VerticalNewsCard(article: news[index]);
+    },
   );
 }

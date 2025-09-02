@@ -11,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
-class RecommendedNewsCard extends StatelessWidget {
-  const RecommendedNewsCard(this.article, {super.key});
+class HorizontalNewsCard extends StatelessWidget {
+  const HorizontalNewsCard(this.article, {super.key});
   final ArticleEntity article;
 
   @override
