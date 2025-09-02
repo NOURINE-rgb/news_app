@@ -1,6 +1,5 @@
 import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
-import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/constants/strings_manager.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
@@ -8,6 +7,7 @@ import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/recommended_card.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/section_header.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +72,12 @@ Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
               title: StringsManager.recommendedNewsTitle,
               onSeeAllPressed: () {}),
           _buildRecommendedNewsCarousel(newsState.recommendedArticles),
+          verticalSpace(AppSize.s20.sp),
+          // i will change this to send the selected category to the datasource folder
+          SizedBox(height: 40.sp, child: const CategoriesChips()),
+          
+          SectionHeader(
+              title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
         ],
       ),
     ),

@@ -10,3 +10,4 @@ final newsNotifierProvider = StateNotifierProvider<NewsNotifier, NewsState>(
     return NewsNotifier(sl<GetRecomandedArticleUseCase>(),sl<GetBreakingNewsArticleUseCase>());
   },
 );
+final selectedCategoryIndexProvider = StateProvider<int>((ref) => 0);
