@@ -2,7 +2,7 @@ import 'package:clean_news_app/features/daily_news/data/data_sources/remote/news
 import 'package:clean_news_app/features/daily_news/data/repository/article_repository_impl.dart';
 import 'package:clean_news_app/features/daily_news/domain/repository/article_repository.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_breaking_news_article.dart';
-import 'package:clean_news_app/features/daily_news/domain/use_cases/get_wallstreet_article.dart';
+import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommended_article.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -10,10 +10,12 @@ final sl = GetIt.instance;
 
 void setupLocator() {
   // dio package
-  sl.registerLazySingleton<Dio>(
-    () => Dio(),
-  );
-  // dependenceis
+  sl.registerLazySingleton<Dio>(() {
+    final dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+    return dio;
+  });
   // datasource
   sl.registerLazySingleton<NewsApiService>(
     () => NewsApiServiceImpl(dio: sl()),
@@ -24,7 +26,7 @@ void setupLocator() {
   );
   // useCases
   sl.registerLazySingleton(
-    () => GetWallStreetArticleUseCase(sl()),
+    () => GetRecomandedArticleUseCase(sl()),
   );
   sl.registerLazySingleton(
     () => GetBreakingNewsArticleUseCase(sl()),

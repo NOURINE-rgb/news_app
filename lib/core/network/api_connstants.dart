@@ -6,12 +6,10 @@ class ApiConstance {
   // after clearing my head i will make the code better a t least i will add a use case and some ui to push jed babah
   static const String baseUrl = "https://newsapi.org/v2";
   static const String apiKey = "5b587be94a2c4070ac7eb4f6b375a8bb";
-  static const String wallStreetArticles =
-      "$baseUrl/everything?domains=wsj.com&apiKey=$apiKey";
-  static String allArticles(String query, String sortedBy) =>
-      "$baseUrl/everything?q=$query&sortBy=$sortedBy&apiKey=$apiKey";
-  static String topHeadlinsArticles(String country, String category) =>
-      "$baseUrl/top-headlines?country=$country&category=$category&apiKey=$apiKey";
+  static const String recommended =
+      "$baseUrl/everything?q=recommended%20OR%20trending&sortBy=popularity&pageSize=10&apiKey=$apiKey";
+  static const String breaking =
+      "https://newsapi.org/v2/top-headlines?category=general&pageSize=10&apiKey=$apiKey";
 
   /// the top headlines filtered by country category and sources 3
   /// and the everyhing can filtered by the language keywords data and sorting 4

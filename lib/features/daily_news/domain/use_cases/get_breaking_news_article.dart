@@ -5,14 +5,14 @@ import 'package:dartz/dartz.dart';
 import 'package:clean_news_app/core/errors/failures.dart';
 
 class GetBreakingNewsArticleUseCase
-    implements BaseUseCase<List<ArticleEntity>, AllArticleParameters> {
+    implements BaseUseCase<List<ArticleEntity>,void> {
   final ArticleRepository _articleRepository;
   const GetBreakingNewsArticleUseCase(this._articleRepository);
 
 
   @override
   Future<Either<Failure, List<ArticleEntity>>> call(
-      {required AllArticleParameters params}) async {
-    return await _articleRepository.getBreakingNewsArticles(params);
+      {void params}) async {
+    return await _articleRepository.getBreakingNewsArticles();
   }
 }

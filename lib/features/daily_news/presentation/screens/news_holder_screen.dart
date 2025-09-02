@@ -2,7 +2,6 @@ import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/bookmark_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/trending_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -18,7 +17,6 @@ class _NewsHolderScreenState extends State<NewsHolderScreen> {
 
   static const List<Widget> _screens = [
     HomeScreen(),
-    TrendingScreen(),
     DiscoverScreen(),
     BookmarkScreen(),
   ];
@@ -40,12 +38,6 @@ class _NewsHolderScreenState extends State<NewsHolderScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: "Home",
-        activeColorPrimary: ColorManager.primary,
-        inactiveColorPrimary: ColorManager.mediumGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.trending_up),
-        title: "Trending",
         activeColorPrimary: ColorManager.primary,
         inactiveColorPrimary: ColorManager.mediumGrey,
       ),
