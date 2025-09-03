@@ -1,6 +1,7 @@
 import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
+import 'package:clean_news_app/core/constants/constants_var.dart';
 import 'package:clean_news_app/core/constants/strings_manager.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
@@ -14,6 +15,7 @@ import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../enums.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -39,24 +41,29 @@ class _HomePageState extends ConsumerState<HomeScreen> {
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 color: ColorManager.primary, fontSize: FontSize.s26.sp)),
       ),
-      body: _buildBody(newsState, context,ref),
+      body: _buildBody(newsState, context, ref),
     );
   }
 }
 
-Widget _buildBody(NewsState newsState, BuildContext context,WidgetRef ref) {
-  if (newsState is NewsLoadingState) {
+Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
+  if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
     return const Center(child: CircularProgressIndicator());
-  } else if (newsState is NewsErrorState) {
-    _buildErrorState(newsState,context,ref);
-  } else if (newsState is NewsLoadedState) {
-    return _buildLoadedContent(newsState, context);
+  } else if (newsState.failureMessage != null &&
+      newsState.recommendedArticles.isEmpty) {
+    _buildErrorState(newsState.failureMessage!, context, ref);
+  } else if (newsState.breakingArticles.isNotEmpty ||
+      newsState.recommendedArticles.isNotEmpty) {
+    return _buildLoadedContent(newsState, context, ref);
   }
   // i will replace it with building shimmer
   return const SizedBox.shrink();
 }
 
-Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
+// in the build content i will seperate when i choose a category to
+// and i will check if im right correctly in the buildbody
+Widget _buildLoadedContent(
+    NewsState newsState, BuildContext context, WidgetRef ref) {
   return SingleChildScrollView(
     child: Padding(
       padding: EdgeInsets.symmetric(
@@ -70,11 +77,32 @@ Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
           _buildRecommendedNewsCarousel(newsState.recommendedArticles),
           verticalSpace(AppSize.s20.sp),
           // i will change this to send the selected category to the datasource folder
-          SizedBox(height: 40.sp, child: const CategoriesChips()),
+          SizedBox(
+            height: 40.sp,
+            child: CategoriesChips(
+              categories: ConstantsVar.categories,
+              onCategorySelected: (String category) {
+                ref
+                    .read(newsNotifierProvider.notifier)
+                    .loadBreakingNewsByCategory(category.toLowerCase());
+              },
+              chipType: ChipType.categoryHome,
+            ),
+          ),
 
           SectionHeader(
               title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
-          _buildBreakingNewsList(newsState.breakingArticles),
+          newsState.isBreakingLoading
+              // i will replace it with shimmer
+              ? const Center(child: CircularProgressIndicator())
+              : newsState.failureMessage == null
+                  ? _buildBreakingNewsList(newsState.breakingArticles)
+                  : Center(
+                      child: Text(
+                        newsState.failureMessage!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
         ],
       ),
     ),
@@ -98,7 +126,7 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
       },
     ),
   );
-} 
+}
 
 Widget _buildBreakingNewsList(List<ArticleEntity> news) {
   return ListView.separated(
@@ -111,46 +139,47 @@ Widget _buildBreakingNewsList(List<ArticleEntity> news) {
     },
   );
 }
- Widget _buildErrorState(NewsErrorState state,BuildContext context,WidgetRef ref) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red[300],
+
+Widget _buildErrorState(
+    String failureMessage, BuildContext context, WidgetRef ref) {
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Colors.red[300],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Oops! Something went wrong',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            failureMessage,
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () {
+              ref.read(newsNotifierProvider.notifier).loadAllNews();
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('Try Again'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Oops! Something went wrong',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              state.failureMessage,
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () {
-                
-                ref.read(newsNotifierProvider.notifier).loadAllNews();
-              },
-              icon: const Icon(Icons.refresh),
-              label: const Text('Try Again'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}

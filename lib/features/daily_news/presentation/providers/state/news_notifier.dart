@@ -28,19 +28,19 @@ class NewsNotifier extends StateNotifier<NewsState> {
             failureMessage: _mapFailureToMessage(failure!));
         return;
       }
-      final breakingArticles = breakingResult.fold(
-        (l) => [],
-        (r) => r,
-      );
-      final recommendedArticles = recommendedResult.fold(
-        (l) => [],
-        (r) => r,
-      );
+      final breakingNews = breakingResult.fold(
+          (l) => <ArticleEntity>[],
+          (r) => r,
+        );
+        final recommendedNews = recommendedResult.fold(
+          (l) => <ArticleEntity>[],
+          (r) => r,
+        );
       state = state.copyWith(
           isBreakingLoading: false,
           isRecommendedLoading: false,
-          breakingArticles: breakingArticles,
-          recommendedArticles: recommendedArticles,
+          breakingArticles: breakingNews,
+          recommendedArticles: recommendedNews,
           failureMessage: null);
     } catch (e) {
       state = state.copyWith(
@@ -50,7 +50,20 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
   }
 
-  Future<void> loadBreakingNewsByCategory(String category) async {}
+  Future<void> loadBreakingNewsByCategory(String category) async {
+    state = state.copyWith(isBreakingLoading: true);
+    final result = await getBreakingNewsArticle(params: category);
+    result.fold((failure) {
+      state = state.copyWith(
+          isBreakingLoading: false,
+          failureMessage: _mapFailureToMessage(failure));
+    }, (articles) {
+      state = state.copyWith(
+          isBreakingLoading: false,
+          breakingArticles: articles,
+          failureMessage: null);
+    });
+  }
 
   String _mapFailureToMessage(Failure failure) {
     if (failure is ServerFailure) {
