@@ -39,21 +39,16 @@ class _HomePageState extends ConsumerState<HomeScreen> {
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 color: ColorManager.primary, fontSize: FontSize.s26.sp)),
       ),
-      body: _buildBody(newsState, context),
+      body: _buildBody(newsState, context,ref),
     );
   }
 }
 
-Widget _buildBody(NewsState newsState, BuildContext context) {
+Widget _buildBody(NewsState newsState, BuildContext context,WidgetRef ref) {
   if (newsState is NewsLoadingState) {
     return const Center(child: CircularProgressIndicator());
   } else if (newsState is NewsErrorState) {
-    return Center(
-      child: Text(
-        newsState.failureMessage,
-        style: TextStyle(color: ColorManager.error),
-      ),
-    );
+    _buildErrorState(newsState,context,ref);
   } else if (newsState is NewsLoadedState) {
     return _buildLoadedContent(newsState, context);
   }
@@ -116,3 +111,46 @@ Widget _buildBreakingNewsList(List<ArticleEntity> news) {
     },
   );
 }
+ Widget _buildErrorState(NewsErrorState state,BuildContext context,WidgetRef ref) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Colors.red[300],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Oops! Something went wrong',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              state.failureMessage,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                
+                ref.read(newsNotifierProvider.notifier).loadAllNews();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Try Again'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
