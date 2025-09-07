@@ -8,9 +8,11 @@ class ConstantsVar {
     "sports",
     "technology"
   ];
-  static const String publishedAt = "publishedAt";
-  static const String popularity = "popularity";
-  static const String relevancy = "relevancy";
+  static const List<String> sortBy = [
+    "Popular",
+    "Recent",
+    "Trending",
+  ];
   List<String> countries = [
     'Algeria',
     'Palestine',

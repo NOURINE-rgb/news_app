@@ -4,6 +4,7 @@ import 'package:clean_news_app/features/daily_news/presentation/screens/article_
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/news_holder_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/onboarding_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -13,6 +14,7 @@ class Routes {
   static const String discoverRoute = "/discover";
   static const String homeRoute = "/home";
   static const String detailsRoute = "/details";
+  static const String seeAllRoute = "/see_all";
 }
 
 class RouteGenerator {
@@ -20,6 +22,8 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.onboardingRoute:
         return MaterialPageRoute(builder: (_) => OboardingScreen());
+      case Routes.seeAllRoute:
+        return MaterialPageRoute(builder: (_) => SeeAllScreen());
       case Routes.holderRoutes:
         return MaterialPageRoute(builder: (_) => NewsHolderScreen());
       case Routes.homeRoute:

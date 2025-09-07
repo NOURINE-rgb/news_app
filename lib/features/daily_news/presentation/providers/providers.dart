@@ -10,4 +10,8 @@ final newsNotifierProvider = StateNotifierProvider<NewsNotifier, NewsState>(
     return NewsNotifier(sl<GetRecomandedArticleUseCase>(),sl<GetBreakingNewsArticleUseCase>());
   },
 );
-final selectedCategoryIndexProvider = StateProvider<int>((ref) => 0);
+final selectedCategoryHomeProvider = StateProvider.autoDispose<int>((ref) => 0);
+// for the search page
+final selectedCategorySearchProvider = StateProvider.autoDispose<int>((ref) => 0);
+final selectedCountryIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
+final selectedSortIndexProvider = StateProvider.autoDispose<int>((ref) => 0); 

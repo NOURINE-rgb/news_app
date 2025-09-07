@@ -1,19 +1,27 @@
+import 'package:clean_news_app/config/routes/routes_manager.dart';
 import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
+import 'package:clean_news_app/core/constants/constants_var.dart';
 import 'package:clean_news_app/core/constants/strings_manager.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/section_header.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/shimmer/home_shimmer.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/shimmer/vertical_news_shimmer.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
+import '../enums.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -39,29 +47,26 @@ class _HomePageState extends ConsumerState<HomeScreen> {
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 color: ColorManager.primary, fontSize: FontSize.s26.sp)),
       ),
-      body: _buildBody(newsState, context),
+      body: _buildBody(newsState, context, ref),
     );
   }
 }
 
-Widget _buildBody(NewsState newsState, BuildContext context) {
-  if (newsState is NewsLoadingState) {
-    return const Center(child: CircularProgressIndicator());
-  } else if (newsState is NewsErrorState) {
-    return Center(
-      child: Text(
-        newsState.failureMessage,
-        style: TextStyle(color: ColorManager.error),
-      ),
-    );
-  } else if (newsState is NewsLoadedState) {
-    return _buildLoadedContent(newsState, context);
+Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
+  if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
+    return HomeShimmer();
+  } else if (newsState.failureMessage != null &&
+      newsState.recommendedArticles.isEmpty) {
+    return _buildErrorState(newsState.failureMessage!, context, ref);
+  } else if (newsState.breakingArticles.isNotEmpty ||
+      newsState.recommendedArticles.isNotEmpty) {
+    return _buildLoadedContent(newsState, context, ref);
   }
-  // i will replace it with building shimmer
-  return const SizedBox.shrink();
+  return HomeShimmer();
 }
 
-Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
+Widget _buildLoadedContent(
+    NewsState newsState, BuildContext context, WidgetRef ref) {
   return SingleChildScrollView(
     child: Padding(
       padding: EdgeInsets.symmetric(
@@ -71,15 +76,50 @@ Widget _buildLoadedContent(NewsLoadedState newsState, BuildContext context) {
         children: [
           SectionHeader(
               title: StringsManager.recommendedNewsTitle,
-              onSeeAllPressed: () {}),
+              onSeeAllPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SeeAllScreen(),
+                  ),
+                );
+              }),
           _buildRecommendedNewsCarousel(newsState.recommendedArticles),
           verticalSpace(AppSize.s20.sp),
-          // i will change this to send the selected category to the datasource folder
-          SizedBox(height: 40.sp, child: const CategoriesChips()),
-
+          SizedBox(
+            height: 40.sp,
+            child: CategoriesChips(
+              categories: ConstantsVar.categories,
+              onCategorySelected: (String category) {
+                ref
+                    .read(newsNotifierProvider.notifier)
+                    .loadBreakingNewsByCategory(category.toLowerCase());
+              },
+              chipType: ChipType.categoryHome,
+            ),
+          ),
           SectionHeader(
-              title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
-          _buildBreakingNewsList(newsState.breakingArticles),
+              title: StringsManager.breakingNewsTitle,
+              onSeeAllPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SeeAllScreen(),
+                  ),
+                );
+              }),
+          newsState.isBreakingLoading
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: VerticalNewsCardShimmer(),
+                )
+              : newsState.failureMessage == null
+                  ? _buildBreakingNewsList(newsState.breakingArticles)
+                  : Center(
+                      child: Text(
+                        newsState.failureMessage!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
         ],
       ),
     ),
@@ -98,12 +138,19 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
           width: context.sizeWidth * 0.7,
           margin: EdgeInsets.only(
               right: AppMargine.m12.sp, bottom: AppMargine.m8.sp),
-          child: HorizontalNewsCard(article),
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ArticleDetailScreen(),
+              ),
+            ),
+            child: HorizontalNewsCard(article),
+          ),
         );
       },
     ),
   );
-} 
+}
 
 Widget _buildBreakingNewsList(List<ArticleEntity> news) {
   return ListView.separated(
@@ -112,7 +159,57 @@ Widget _buildBreakingNewsList(List<ArticleEntity> news) {
     itemCount: news.length,
     separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
     itemBuilder: (context, index) {
-      return VerticalNewsCard(article: news[index]);
+      return InkWell(
+          onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ArticleDetailScreen(),
+                ),
+              ),
+          child: VerticalNewsCard(article: news[index]));
     },
+  );
+}
+
+Widget _buildErrorState(
+    String failureMessage, BuildContext context, WidgetRef ref) {
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Colors.red[300],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Oops! Something went wrong',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            failureMessage,
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () {
+              ref.read(newsNotifierProvider.notifier).loadAllNews();
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('Try Again'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorManager.primary,
+              foregroundColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }

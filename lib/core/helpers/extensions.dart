@@ -14,8 +14,8 @@ extension Navigation on BuildContext {
           arguments: arguments);
 
   void pop<T extends Object?>([T? result]) => Navigator.of(this).pop(result);
-double get sizeWidth => MediaQuery.of(this).size.width;
-
+  
+  double get sizeWidth => MediaQuery.of(this).size.width;
   double get sizeHeight => MediaQuery.of(this).size.height;
 }
 

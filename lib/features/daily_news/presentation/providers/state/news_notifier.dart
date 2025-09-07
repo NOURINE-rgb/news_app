@@ -9,40 +9,64 @@ class NewsNotifier extends StateNotifier<NewsState> {
   final GetRecomandedArticleUseCase getRecommendedArticle;
   final GetBreakingNewsArticleUseCase getBreakingNewsArticle;
   NewsNotifier(this.getRecommendedArticle, this.getBreakingNewsArticle)
-      : super(NewsInitialState());
+      : super(NewsState());
 
   Future<void> loadAllNews() async {
-    state = NewsLoadingState();
+    state = state.copyWith(
+        isBreakingLoading: true,
+        isRecommendedLoading: true,
+        failureMessage: null);
     try {
-      final results = await Future.wait([
-        getRecommendedArticle.call(),
-        getBreakingNewsArticle.call(),
+      final result = await Future.wait([
+        getBreakingNewsArticle.call(params: "general"),
+        getRecommendedArticle.call()
       ]);
-      final breakingResult = results[0];
-      final recommendedResult = results[1];
+      final breakingResult = result[0];
+      final recommendedResult = result[1];
       if (breakingResult.isLeft() || recommendedResult.isLeft()) {
         final failure = breakingResult.isLeft()
             ? breakingResult.fold((l) => l, (r) => null)
             : recommendedResult.fold((l) => l, (r) => null);
-        state = NewsErrorState(failureMessage: _mapFailureToMessage(failure!));
-      } else {
-        final breakingNews = breakingResult.fold(
-          (l) => <ArticleEntity>[],
-          (r) => r,
-        );
-        final recommendedNews = recommendedResult.fold(
-          (l) => <ArticleEntity>[],
-          (r) => r,
-        );
-        state = NewsLoadedState(
+        state = state.copyWith(
+            isBreakingLoading: false,
+            isRecommendedLoading: false,
+            failureMessage: _mapFailureToMessage(failure!));
+      }
+      final breakingNews = breakingResult.fold(
+        (l) => <ArticleEntity>[],
+        (r) => r,
+      );
+      final recommendedNews = recommendedResult.fold(
+        (l) => <ArticleEntity>[],
+        (r) => r,
+      );
+      state = state.copyWith(
+          isBreakingLoading: false,
+          isRecommendedLoading: false,
           breakingArticles: breakingNews,
           recommendedArticles: recommendedNews,
-        );
-      }
+          failureMessage: null);
     } catch (e) {
-      state =
-          NewsErrorState(failureMessage: 'An unexpected error occurred: $e');
+      state = state.copyWith(
+          isBreakingLoading: false,
+          isRecommendedLoading: false,
+          failureMessage: e.toString());
     }
+  }
+
+  Future<void> loadBreakingNewsByCategory(String category) async {
+    state = state.copyWith(isBreakingLoading: true, failureMessage: null);
+    final result = await getBreakingNewsArticle.call(params: category);
+    result.fold((failure) {
+      state = state.copyWith(
+          isBreakingLoading: false,
+          failureMessage: _mapFailureToMessage(failure));
+    }, (articles) {
+      state = state.copyWith(
+          isBreakingLoading: false,
+          breakingArticles: articles,
+          failureMessage: null);
+    });
   }
 
   String _mapFailureToMessage(Failure failure) {

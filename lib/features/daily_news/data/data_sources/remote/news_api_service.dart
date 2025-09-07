@@ -4,7 +4,7 @@ import 'package:clean_news_app/features/daily_news/data/models/article.dart';
 import 'package:dio/dio.dart';
 
 abstract class NewsApiService {
-  Future<List<ArticleModel>> getBreakingNewsArticles();
+  Future<List<ArticleModel>> getBreakingNewsArticles(String category);
   Future<List<ArticleModel>> getRecommendedNews();
 }
 
@@ -13,17 +13,19 @@ class NewsApiServiceImpl implements NewsApiService {
   const NewsApiServiceImpl({required this.dio});
 
   @override
-  Future<List<ArticleModel>> getBreakingNewsArticles() async {
+  Future<List<ArticleModel>> getBreakingNewsArticles(String category) async {
     try {
-      final response = await dio.get(ApiConstance.breaking);
+      final response = await dio.get(ApiConstance.breaking(category));
       if (response.statusCode == 200) {
         final newsResponse = NewsResponse.fromJson(response.data);
         return newsResponse.articles;
       } else {
+        print("${response.statusCode} ************");
         throw ServerException(
             message: 'Failed to fetch news: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      print("dio exception ************");
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unknown error: $e');
