@@ -7,7 +7,7 @@ class ArticleDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
-        child: Text("screen2"),
+        child: Text("details screen"),
       ),
     );
   }

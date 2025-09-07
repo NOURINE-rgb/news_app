@@ -1,3 +1,4 @@
+import 'package:clean_news_app/config/routes/routes_manager.dart';
 import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
@@ -8,6 +9,8 @@ import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
+import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/section_header.dart';
@@ -73,7 +76,13 @@ Widget _buildLoadedContent(
         children: [
           SectionHeader(
               title: StringsManager.recommendedNewsTitle,
-              onSeeAllPressed: () {}),
+              onSeeAllPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SeeAllScreen(),
+                  ),
+                );
+              }),
           _buildRecommendedNewsCarousel(newsState.recommendedArticles),
           verticalSpace(AppSize.s20.sp),
           SizedBox(
@@ -89,7 +98,14 @@ Widget _buildLoadedContent(
             ),
           ),
           SectionHeader(
-              title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
+              title: StringsManager.breakingNewsTitle,
+              onSeeAllPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SeeAllScreen(),
+                  ),
+                );
+              }),
           newsState.isBreakingLoading
               ? Shimmer.fromColors(
                   baseColor: Colors.grey.shade300,
@@ -122,7 +138,14 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
           width: context.sizeWidth * 0.7,
           margin: EdgeInsets.only(
               right: AppMargine.m12.sp, bottom: AppMargine.m8.sp),
-          child: HorizontalNewsCard(article),
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ArticleDetailScreen(),
+              ),
+            ),
+            child: HorizontalNewsCard(article),
+          ),
         );
       },
     ),
@@ -136,7 +159,13 @@ Widget _buildBreakingNewsList(List<ArticleEntity> news) {
     itemCount: news.length,
     separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
     itemBuilder: (context, index) {
-      return VerticalNewsCard(article: news[index]);
+      return InkWell(
+          onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ArticleDetailScreen(),
+                ),
+              ),
+          child: VerticalNewsCard(article: news[index]));
     },
   );
 }
