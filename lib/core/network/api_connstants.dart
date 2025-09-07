@@ -7,9 +7,9 @@ class ApiConstance {
   static const String baseUrl = "https://newsapi.org/v2";
   static const String apiKey = "5b587be94a2c4070ac7eb4f6b375a8bb";
   static const String recommended =
-      "$baseUrl/everything?q=recommended%20OR%20trending&sortBy=popularity&pageSize=10&apiKey=$apiKey";
-  static String breaking(String category) =>
-      "https://newsapi.org/v2/top-headlines?category=$category&pageSize=10&apiKey=$apiKey";
+      "$baseUrl/everything?q=recommended%20OR%20trending&sortBy=popularity&pageSize=8&apiKey=$apiKey";
+  static String breaking(String category,int page) =>
+      "https://newsapi.org/v2/top-headlines?category=$category&page=$page&pageSize=8&apiKey=$apiKey";
 
   /// the top headlines filtered by country category and sources 3
   /// and the everyhing can filtered by the language keywords data and sorting 4
