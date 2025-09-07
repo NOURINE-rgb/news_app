@@ -20,10 +20,12 @@ class NewsApiServiceImpl implements NewsApiService {
         final newsResponse = NewsResponse.fromJson(response.data);
         return newsResponse.articles;
       } else {
+        print("${response.statusCode} ************");
         throw ServerException(
             message: 'Failed to fetch news: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      print("dio exception ************");
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unknown error: $e');

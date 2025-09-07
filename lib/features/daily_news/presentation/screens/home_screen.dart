@@ -48,15 +48,19 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
 Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
   if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
+    print(
+        " 1111111111111111111111*************************************************");
     return const Center(child: CircularProgressIndicator());
   } else if (newsState.failureMessage != null &&
       newsState.recommendedArticles.isEmpty) {
-    _buildErrorState(newsState.failureMessage!, context, ref);
+    return _buildErrorState(newsState.failureMessage!, context, ref);
   } else if (newsState.breakingArticles.isNotEmpty ||
       newsState.recommendedArticles.isNotEmpty) {
+    print("*************************************************");
     return _buildLoadedContent(newsState, context, ref);
   }
   // i will replace it with building shimmer
+  print("shrin shrink *************************************************");
   return const SizedBox.shrink();
 }
 
@@ -174,7 +178,7 @@ Widget _buildErrorState(
             icon: const Icon(Icons.refresh),
             label: const Text('Try Again'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: ColorManager.primary,
               foregroundColor: Colors.white,
             ),
           ),
