@@ -16,7 +16,6 @@ class NewsNotifier extends StateNotifier<NewsState> {
         isBreakingLoading: true,
         isRecommendedLoading: true,
         failureMessage: null);
-    print("is loading true *************************************************");
     try {
       final result = await Future.wait([
         getBreakingNewsArticle.call(params: "general"),
@@ -32,8 +31,6 @@ class NewsNotifier extends StateNotifier<NewsState> {
             isBreakingLoading: false,
             isRecommendedLoading: false,
             failureMessage: _mapFailureToMessage(failure!));
-        print(
-            "isloading false ************************************************* error true");
       }
       final breakingNews = breakingResult.fold(
         (l) => <ArticleEntity>[],
@@ -49,15 +46,11 @@ class NewsNotifier extends StateNotifier<NewsState> {
           breakingArticles: breakingNews,
           recommendedArticles: recommendedNews,
           failureMessage: null);
-      print(
-          "isloading false *************************************************succes true");
     } catch (e) {
       state = state.copyWith(
           isBreakingLoading: false,
           isRecommendedLoading: false,
           failureMessage: e.toString());
-      print(
-          "isloading false ************************************************* error true iin the catch");
     }
   }
 

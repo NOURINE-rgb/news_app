@@ -11,10 +11,13 @@ import 'package:clean_news_app/features/daily_news/presentation/providers/state/
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/section_header.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/shimmer/home_shimmer.dart';
+import 'package:clean_news_app/features/daily_news/presentation/widgets/shimmer/vertical_news_shimmer.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import '../enums.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -48,24 +51,17 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
 Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
   if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
-    print(
-        " 1111111111111111111111*************************************************");
-    return const Center(child: CircularProgressIndicator());
+    return HomeShimmer();
   } else if (newsState.failureMessage != null &&
       newsState.recommendedArticles.isEmpty) {
     return _buildErrorState(newsState.failureMessage!, context, ref);
   } else if (newsState.breakingArticles.isNotEmpty ||
       newsState.recommendedArticles.isNotEmpty) {
-    print("*************************************************");
     return _buildLoadedContent(newsState, context, ref);
   }
-  // i will replace it with building shimmer
-  print("shrin shrink *************************************************");
-  return const SizedBox.shrink();
+  return HomeShimmer();
 }
 
-// in the build content i will seperate when i choose a category to
-// and i will check if im right correctly in the buildbody
 Widget _buildLoadedContent(
     NewsState newsState, BuildContext context, WidgetRef ref) {
   return SingleChildScrollView(
@@ -80,7 +76,6 @@ Widget _buildLoadedContent(
               onSeeAllPressed: () {}),
           _buildRecommendedNewsCarousel(newsState.recommendedArticles),
           verticalSpace(AppSize.s20.sp),
-          // i will change this to send the selected category to the datasource folder
           SizedBox(
             height: 40.sp,
             child: CategoriesChips(
@@ -93,12 +88,14 @@ Widget _buildLoadedContent(
               chipType: ChipType.categoryHome,
             ),
           ),
-
           SectionHeader(
               title: StringsManager.breakingNewsTitle, onSeeAllPressed: () {}),
           newsState.isBreakingLoading
-              // i will replace it with shimmer
-              ? const Center(child: CircularProgressIndicator())
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: VerticalNewsCardShimmer(),
+                )
               : newsState.failureMessage == null
                   ? _buildBreakingNewsList(newsState.breakingArticles)
                   : Center(

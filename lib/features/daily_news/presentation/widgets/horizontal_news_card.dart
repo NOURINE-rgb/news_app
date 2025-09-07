@@ -5,11 +5,11 @@ import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/date_format.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
+import 'package:clean_news_app/core/widgets/shimmer_image.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HorizontalNewsCard extends StatelessWidget {
   const HorizontalNewsCard(this.article, {super.key});
@@ -39,7 +39,7 @@ class HorizontalNewsCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: AppSize.s220.sp - 60,
                     width: double.infinity,
-                    placeholder: (context, url) => shimerWidget(),
+                    placeholder: (context, url) => ShimmerImage(),
                     errorWidget: (context, url, error) => Container(
                       color: Colors.grey[300],
                       child: Icon(Icons.image_not_supported, size: 50.sp),
@@ -98,14 +98,4 @@ class HorizontalNewsCard extends StatelessWidget {
       ),
     );
   }
-
-  Widget shimerWidget() => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Container(
-          color: ColorManager.white,
-          height: double.infinity,
-          width: double.infinity,
-        ),
-      );
 }
