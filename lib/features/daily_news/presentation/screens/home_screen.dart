@@ -7,7 +7,7 @@ import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
-import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
@@ -39,7 +39,6 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -55,8 +54,8 @@ class _HomePageState extends ConsumerState<HomeScreen> {
   }
 }
 
-Widget _buildBody( BuildContext context, WidgetRef ref) {
-   final newsState = ref.watch(newsNotifierProvider);
+Widget _buildBody(BuildContext context, WidgetRef ref) {
+  final newsState = ref.watch(newsNotifierProvider);
   if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
     return HomeShimmer();
   } else if (newsState.failureMessage != null &&
@@ -77,7 +76,9 @@ Widget _buildLoadedContent(
       if (notification.metrics.pixels == notification.metrics.maxScrollExtent &&
           !newsState.isBreakingMoreLoading &&
           newsState.hasMoreBreaking) {
-        ref.read(newsNotifierProvider.notifier).loadMoreBreakingNews(ConstantsVar.categories[selectedCategory]);
+        ref
+            .read(newsNotifierProvider.notifier)
+            .loadMoreBreakingNews(ConstantsVar.categories[selectedCategory]);
       }
       return false;
     },
@@ -90,16 +91,7 @@ Widget _buildLoadedContent(
           children: [
             SectionHeader(
                 title: StringsManager.recommendedNewsTitle,
-                onSeeAllPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SeeAllScreen(
-                        news: newsState.recommendedArticles,
-                        title: StringsManager.recommendedNewsTitle,
-                      ),
-                    ),
-                  );
-                }),
+                onSeeAllPressed: () {}),
             _buildRecommendedNewsCarousel(newsState.recommendedArticles),
             verticalSpace(AppSize.s20.sp),
             SizedBox(
@@ -120,8 +112,10 @@ Widget _buildLoadedContent(
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SeeAllScreen(
-                        title: StringsManager.breakingNewsTitle,
                         news: newsState.breakingArticles,
+                        title: StringsManager.breakingNewsTitle,
+                        category: ConstantsVar.categories[selectedCategory],
+                        page: newsState.breakingCurrentPage,
                       ),
                     ),
                   );

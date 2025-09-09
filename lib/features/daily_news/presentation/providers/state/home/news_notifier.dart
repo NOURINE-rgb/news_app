@@ -1,9 +1,10 @@
-import 'package:clean_news_app/core/errors/failures.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_breaking_news_article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommended_article.dart';
-import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../../../core/helpers/map_failure_message.dart';
 
 class NewsNotifier extends StateNotifier<NewsState> {
   final GetRecomandedArticleUseCase getRecommendedArticle;
@@ -31,7 +32,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
         state = state.copyWith(
             isBreakingLoading: false,
             isRecommendedLoading: false,
-            failureMessage: _mapFailureToMessage(failure!));
+            failureMessage: mapFailureToMessage(failure!));
       }
       final breakingNews = breakingResult.fold(
         (l) => <ArticleEntity>[],
@@ -63,7 +64,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
     result.fold((failure) {
       state = state.copyWith(
           isBreakingLoading: false,
-          failureMessage: _mapFailureToMessage(failure));
+          failureMessage: mapFailureToMessage(failure));
     }, (articles) {
       state = state.copyWith(
           isBreakingLoading: false,
@@ -85,7 +86,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
     result.fold((failure) {
       state = state.copyWith(
           isBreakingMoreLoading: false,
-          failureMessage: _mapFailureToMessage(failure));
+          failureMessage: mapFailureToMessage(failure));
     }, (articles) {
       state = state.copyWith(
         isBreakingMoreLoading: false,
@@ -94,15 +95,5 @@ class NewsNotifier extends StateNotifier<NewsState> {
         hasMoreBreaking: articles.isNotEmpty,
       );
     });
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    if (failure is ServerFailure) {
-      return 'Server Error: ${failure.message}';
-    } else if (failure is NetworkFailure) {
-      return 'Network Error: ${failure.message}';
-    } else {
-      return 'Unknown Error: ${failure.message}';
-    }
   }
 }
