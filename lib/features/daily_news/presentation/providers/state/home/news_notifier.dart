@@ -1,9 +1,10 @@
-import 'package:clean_news_app/core/errors/failures.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_breaking_news_article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommended_article.dart';
-import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../../../core/helpers/map_failure_message.dart';
 
 class NewsNotifier extends StateNotifier<NewsState> {
   final GetRecomandedArticleUseCase getRecommendedArticle;
@@ -18,7 +19,8 @@ class NewsNotifier extends StateNotifier<NewsState> {
         failureMessage: null);
     try {
       final result = await Future.wait([
-        getBreakingNewsArticle.call(params: "general"),
+        getBreakingNewsArticle.call(
+            params: BreakingNewsParams(category: "business", page: 1)),
         getRecommendedArticle.call()
       ]);
       final breakingResult = result[0];
@@ -30,7 +32,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
         state = state.copyWith(
             isBreakingLoading: false,
             isRecommendedLoading: false,
-            failureMessage: _mapFailureToMessage(failure!));
+            failureMessage: mapFailureToMessage(failure!));
       }
       final breakingNews = breakingResult.fold(
         (l) => <ArticleEntity>[],
@@ -55,27 +57,43 @@ class NewsNotifier extends StateNotifier<NewsState> {
   }
 
   Future<void> loadBreakingNewsByCategory(String category) async {
-    state = state.copyWith(isBreakingLoading: true, failureMessage: null);
-    final result = await getBreakingNewsArticle.call(params: category);
+    state = state.copyWith(
+        isBreakingLoading: true, failureMessage: null, breakingCurrentPage: 1);
+    final result = await getBreakingNewsArticle.call(
+        params: BreakingNewsParams(category: category, page: 1));
     result.fold((failure) {
       state = state.copyWith(
           isBreakingLoading: false,
-          failureMessage: _mapFailureToMessage(failure));
+          failureMessage: mapFailureToMessage(failure));
     }, (articles) {
       state = state.copyWith(
           isBreakingLoading: false,
           breakingArticles: articles,
+          hasMoreBreaking: articles.isNotEmpty,
           failureMessage: null);
     });
   }
 
-  String _mapFailureToMessage(Failure failure) {
-    if (failure is ServerFailure) {
-      return 'Server Error: ${failure.message}';
-    } else if (failure is NetworkFailure) {
-      return 'Network Error: ${failure.message}';
-    } else {
-      return 'Unknown Error: ${failure.message}';
-    }
+  Future<void> loadMoreBreakingNews(String category) async {
+    if (state.isBreakingMoreLoading || !state.hasMoreBreaking) return;
+    final nextPage = state.breakingCurrentPage + 1;
+    state = state.copyWith(
+      isBreakingMoreLoading: true,
+      failureMessage: null,
+    );
+    final result = await getBreakingNewsArticle.call(
+        params: BreakingNewsParams(category: category, page: nextPage));
+    result.fold((failure) {
+      state = state.copyWith(
+          isBreakingMoreLoading: false,
+          failureMessage: mapFailureToMessage(failure));
+    }, (articles) {
+      state = state.copyWith(
+        isBreakingMoreLoading: false,
+        breakingArticles: [...state.breakingArticles, ...articles],
+        breakingCurrentPage: nextPage,
+        hasMoreBreaking: articles.isNotEmpty,
+      );
+    });
   }
 }

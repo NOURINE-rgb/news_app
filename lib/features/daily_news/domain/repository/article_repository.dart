@@ -4,5 +4,5 @@ import "package:dartz/dartz.dart";
 
 abstract class ArticleRepository {
   Future<Either<Failure,List<ArticleEntity>>> getRecommondedNews();
-  Future<Either<Failure,List<ArticleEntity>>> getBreakingNewsArticles(String category);
+  Future<Either<Failure,List<ArticleEntity>>> getBreakingNewsArticles(String category,int page);
 }

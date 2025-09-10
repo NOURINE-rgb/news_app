@@ -24,9 +24,10 @@ class ArticleRepositoryImpl implements ArticleRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getBreakingNewsArticles(String category) async{
+  Future<Either<Failure, List<ArticleEntity>>> getBreakingNewsArticles(String category,int page) async{
     try {
-      final articles = await _newsApiService.getBreakingNewsArticles(category);
+      
+      final articles = await _newsApiService.getBreakingNewsArticles(category,page);
       return Right(articles);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

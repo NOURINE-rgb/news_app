@@ -1,4 +1,3 @@
-import 'package:clean_news_app/config/routes/routes_manager.dart';
 import 'package:clean_news_app/config/theme/color_manager.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
@@ -8,7 +7,7 @@ import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
-import 'package:clean_news_app/features/daily_news/presentation/providers/state/news_state.dart';
+import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
@@ -40,19 +39,23 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final newsState = ref.watch(newsNotifierProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Daily News",
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                color: ColorManager.primary, fontSize: FontSize.s26.sp)),
+        title: Text(
+          "Daily News",
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: ColorManager.primary, fontSize: FontSize.s26.sp),
+        ),
       ),
-      body: _buildBody(newsState, context, ref),
+      body: _buildBody(context, ref),
     );
   }
 }
 
-Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
+Widget _buildBody(BuildContext context, WidgetRef ref) {
+  final newsState = ref.watch(newsNotifierProvider);
   if (newsState.isBreakingLoading && newsState.isRecommendedLoading) {
     return HomeShimmer();
   } else if (newsState.failureMessage != null &&
@@ -67,60 +70,72 @@ Widget _buildBody(NewsState newsState, BuildContext context, WidgetRef ref) {
 
 Widget _buildLoadedContent(
     NewsState newsState, BuildContext context, WidgetRef ref) {
-  return SingleChildScrollView(
-    child: Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: AppPadding.p16.sp, horizontal: AppPadding.p12.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionHeader(
-              title: StringsManager.recommendedNewsTitle,
-              onSeeAllPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SeeAllScreen(),
-                  ),
-                );
-              }),
-          _buildRecommendedNewsCarousel(newsState.recommendedArticles),
-          verticalSpace(AppSize.s20.sp),
-          SizedBox(
-            height: 40.sp,
-            child: CategoriesChips(
-              categories: ConstantsVar.categories,
-              onCategorySelected: (String category) {
-                ref
-                    .read(newsNotifierProvider.notifier)
-                    .loadBreakingNewsByCategory(category.toLowerCase());
-              },
-              chipType: ChipType.categoryHome,
+  final selectedCategory = ref.watch(selectedCategoryHomeProvider);
+  return NotificationListener<ScrollNotification>(
+    onNotification: (notification) {
+      if (notification.metrics.pixels == notification.metrics.maxScrollExtent &&
+          !newsState.isBreakingMoreLoading &&
+          newsState.hasMoreBreaking) {
+        ref
+            .read(newsNotifierProvider.notifier)
+            .loadMoreBreakingNews(ConstantsVar.categories[selectedCategory]);
+      }
+      return false;
+    },
+    child: SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: AppPadding.p16.sp, horizontal: AppPadding.p12.sp),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+                title: StringsManager.recommendedNewsTitle,
+                onSeeAllPressed: () {}),
+            _buildRecommendedNewsCarousel(newsState.recommendedArticles),
+            verticalSpace(AppSize.s20.sp),
+            SizedBox(
+              height: 40.sp,
+              child: CategoriesChips(
+                categories: ConstantsVar.categories,
+                onCategorySelected: (String category) {
+                  ref
+                      .read(newsNotifierProvider.notifier)
+                      .loadBreakingNewsByCategory(category.toLowerCase());
+                },
+                chipType: ChipType.categoryHome,
+              ),
             ),
-          ),
-          SectionHeader(
-              title: StringsManager.breakingNewsTitle,
-              onSeeAllPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SeeAllScreen(),
-                  ),
-                );
-              }),
-          newsState.isBreakingLoading
-              ? Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: VerticalNewsCardShimmer(),
-                )
-              : newsState.failureMessage == null
-                  ? _buildBreakingNewsList(newsState.breakingArticles)
-                  : Center(
-                      child: Text(
-                        newsState.failureMessage!,
-                        style: Theme.of(context).textTheme.bodyLarge,
+            SectionHeader(
+                title: StringsManager.breakingNewsTitle,
+                onSeeAllPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SeeAllScreen(
+                        news: newsState.breakingArticles,
+                        title: StringsManager.breakingNewsTitle,
+                        category: ConstantsVar.categories[selectedCategory],
+                        page: newsState.breakingCurrentPage,
                       ),
                     ),
-        ],
+                  );
+                }),
+            newsState.isBreakingLoading
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: VerticalNewsCardShimmer(),
+                  )
+                : newsState.failureMessage == null
+                    ? _buildBreakingNewsList(newsState)
+                    : Center(
+                        child: Text(
+                          newsState.failureMessage!,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+          ],
+        ),
       ),
     ),
   );
@@ -152,20 +167,26 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
   );
 }
 
-Widget _buildBreakingNewsList(List<ArticleEntity> news) {
+Widget _buildBreakingNewsList(NewsState state) {
+  final length = state.breakingArticles.length;
   return ListView.separated(
     physics: const NeverScrollableScrollPhysics(),
     shrinkWrap: true,
-    itemCount: news.length,
+    itemCount: length + (state.isBreakingMoreLoading ? 1 : 0),
     separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
     itemBuilder: (context, index) {
+      if (index >= length) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       return InkWell(
           onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ArticleDetailScreen(),
                 ),
               ),
-          child: VerticalNewsCard(article: news[index]));
+          child: VerticalNewsCard(article: state.breakingArticles[index]));
     },
   );
 }
