@@ -33,8 +33,10 @@ class SeeAllScreen extends ConsumerWidget {
         backgroundColor: ColorManager.backgroundLight,
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              color: ColorManager.textPrimary, fontSize: FontSize.s26.sp),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: ColorManager.primary, fontSize: FontSize.s22.sp),
         ),
       ),
       body: Padding(
@@ -42,37 +44,38 @@ class SeeAllScreen extends ConsumerWidget {
             vertical: AppPadding.p16, horizontal: AppPadding.p12),
         child: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
-            if (notification.metrics.pixels ==
-                    notification.metrics.maxScrollExtent &&
+            if (notification.metrics.pixels >=
+                    notification.metrics.maxScrollExtent - 100 &&
                 state.hasMore &&
                 !state.isLoading) {
               ref
-                  .read(seeAllNotifierProvider(SeeAllParams(
-                          initialNews: news,
-                          category: category,
-                          currentPage: page))
-                      .notifier)
+                  .read(seeAllNotifierProvider(params).notifier)
                   .loadMoreArticles();
             }
             return false;
           },
           child: ListView.separated(
             shrinkWrap: true,
-            itemCount: news.length + (state.isLoading ? 1 : 0),
+            itemCount: state.articles.length + (state.isLoading ? 1 : 0),
             separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
             itemBuilder: (context, index) {
-              if (index < news.length) {
-                return InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ArticleDetailScreen(),
-                    ),
-                  ),
-                  child: VerticalNewsCard(article: news[index]),
+              if (index >= state.articles.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(child: CircularProgressIndicator()),
                 );
               }
-              return const Center(
-                child: CircularProgressIndicator(),
+              final article = state.articles[index];
+              return InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ArticleDetailScreen(),
+                  ),
+                ),
+                child: VerticalNewsCard(
+                  article: article,
+                  category: category,
+                ),
               );
             },
           ),
