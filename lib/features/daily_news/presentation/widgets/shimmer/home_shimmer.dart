@@ -1,4 +1,6 @@
+import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
+import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/shimmer/vertical_news_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,13 +15,12 @@ class HomeShimmer extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(AppPadding.p16).r,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             sectionHeader(),
-            const SizedBox(height: 12),
-
+            verticalSpace(AppSize.s12.h),
             SizedBox(
               height: 230.h,
               child: ListView.separated(
@@ -30,33 +31,33 @@ class HomeShimmer extends StatelessWidget {
                   width: context.sizeWidth * 0.75,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            verticalSpace(AppSize.s20),
 
             // Category chips row
             SizedBox(
-              height: 36,
+              height: AppSize.s36.h,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: 4,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, __) => horizontalSpace(AppSize.s8.w),
                 itemBuilder: (_, __) => Container(
                   width: 90.w,
-                  height: 32,
+                  height: 32.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            verticalSpace(AppSize.s20.h),
             sectionHeader(),
-            const SizedBox(height: 12),
+            verticalSpace(AppSize.s12.h),
             VerticalNewsCardShimmer(),
           ],
         ),

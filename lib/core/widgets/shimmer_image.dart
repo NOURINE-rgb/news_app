@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../config/theme/color_manager.dart';
+import '../../config/theme/app_colors.dart';
 
 class ShimmerImage extends StatelessWidget {
   final double? width;
@@ -23,7 +23,7 @@ class ShimmerImage extends StatelessWidget {
         width: width ?? double.infinity,
         height: height ?? double.infinity,
         decoration: BoxDecoration(
-          color: ColorManager.white,
+          color: AppColors.white,
           borderRadius: borderRadius ?? BorderRadius.circular(8),
         ),
       ),

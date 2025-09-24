@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:clean_news_app/config/theme/color_manager.dart';
-import 'package:clean_news_app/config/theme/font_manager.dart';
+import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/date_format.dart';
-import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/core/widgets/shimmer_image.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
@@ -28,15 +26,15 @@ class VerticalNewsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSize.s12.sp),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: AppColors.shadowColor.withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
           ),
         ],
-        color: ColorManager.backgroundLight,
+        color: AppColors.backgroundLight,
       ),
-      height: (context.sizeHeight * 0.2).h,
+      height: category.isEmpty ? 140.h : 160.h,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -45,20 +43,21 @@ class VerticalNewsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s12.sp),
                   child: CachedNetworkImage(
                     imageUrl: article.imageUrl,
-                    height: context.sizeHeight * 0.18.h,
-                    width: context.sizeHeight * 0.18.w,
+                    width: 120.w,
+                    height: 140.h,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => ShimmerImage(),
                     errorWidget: (context, url, error) => Container(
-                      color: Colors.grey[300],
-                      child: Icon(Icons.image_not_supported, size: 50.sp),
+                      color: AppColors.lightGrey,
+                      child:
+                          Icon(Icons.image_not_supported, size: AppSize.s50.sp),
                     ),
                   ),
                 )
               : Container(
-                  color: Colors.grey[300],
-                  width: 150.w,
-                  height: 150.h,
+                  color: AppColors.lightGrey,
+                  width: 120.w,
+                  height: 140.h,
                   child: Center(
                     child: Icon(
                       Icons.image_not_supported,
@@ -67,53 +66,48 @@ class VerticalNewsCard extends StatelessWidget {
                     ),
                   ),
                 ),
-          horizontalSpace(AppSize.s12.sp),
+          horizontalSpace(AppSize.s12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (category.isNotEmpty)
                   Container(
-                    margin: EdgeInsets.only(bottom: 4),
-                    height: 30,
+                    margin: EdgeInsets.only(bottom: AppMargine.m4.r),
+                    height: 30.h,
                     constraints: BoxConstraints(
-                      minWidth: 60,
-                      maxWidth: 120,
+                      minWidth: 60.w,
+                      maxWidth: 120.h,
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s12.r),
-                      color: ColorManager.primaryLight,
+                      color: AppColors.primaryLight,
                     ),
                     child: Center(
                       child: Text(
                         category,
-                        style: getRegularStyle(color: ColorManager.primary),
+                        style: get14RegularStyle(color: AppColors.primary),
                       ),
                     ),
                   ),
-                if (category.isEmpty) verticalSpace(AppSize.s12),
+                if (category.isEmpty) verticalSpace(AppSize.s12.h),
                 Text(
                   article.title,
-                  style: getBoldStyle(
-                      color: ColorManager.dark, fontSize: AppSize.s16.sp),
+                  style: get16SemiBoldStyle(color: AppColors.textPrimary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                verticalSpace(AppSize.s4.sp),
+                verticalSpace(AppSize.s4.h),
                 Text(
-                  article.content,
-                  style: Theme.of(context).textTheme.bodySmall,
+                  article.description,
+                  style: get14MediumStyle(color: AppColors.textSecondary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                verticalSpace(AppSize.s4.sp),
+                verticalSpace(AppSize.s4.h),
                 Text(
                   formatDate(article.publishedAt),
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: ColorManager.dark,
-                        fontSize: FontSize.s14.sp,
-                        fontWeight: FontManager.regular,
-                      ),
+                  style: get14RegularStyle(color: AppColors.textSecondary),
                 ),
               ],
             ),
@@ -121,10 +115,10 @@ class VerticalNewsCard extends StatelessWidget {
           if (showBookMark)
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: AppPadding.p8.sp, vertical: AppPadding.p16.sp),
+                  horizontal: AppPadding.p8.w, vertical: AppPadding.p16.h),
               child: Icon(
                 Icons.bookmark_border,
-                color: ColorManager.primary,
+                color: AppColors.primary,
                 size: 24.sp,
               ),
             ),

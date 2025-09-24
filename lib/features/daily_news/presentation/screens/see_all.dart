@@ -1,3 +1,4 @@
+import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/see_all/see_all_notifier.dart';
@@ -6,8 +7,7 @@ import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../config/theme/color_manager.dart';
-import '../../../../config/theme/font_manager.dart';
+import '../../../../config/theme/app_colors.dart';
 import '../../../../config/theme/values_manager.dart';
 import '../../../../core/helpers/spacing.dart';
 
@@ -30,18 +30,16 @@ class SeeAllScreen extends ConsumerWidget {
     final state = ref.watch(seeAllNotifierProvider(params));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorManager.backgroundLight,
+        backgroundColor: AppColors.backgroundLight,
         title: Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(color: ColorManager.primary, fontSize: FontSize.s22.sp),
+          style: get22SemiBoldStyle(color: AppColors.textPrimary),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-            vertical: AppPadding.p16, horizontal: AppPadding.p12),
+                vertical: AppPadding.p16, horizontal: AppPadding.p12)
+            .r,
         child: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
             if (notification.metrics.pixels >=
@@ -60,8 +58,8 @@ class SeeAllScreen extends ConsumerWidget {
             separatorBuilder: (context, index) => verticalSpace(AppSize.s12.sp),
             itemBuilder: (context, index) {
               if (index >= state.articles.length) {
-                return const Padding(
-                  padding: EdgeInsets.all(16.0),
+                return Padding(
+                  padding: EdgeInsets.all(AppPadding.p16.r),
                   child: Center(child: CircularProgressIndicator()),
                 );
               }
@@ -69,7 +67,10 @@ class SeeAllScreen extends ConsumerWidget {
               return InkWell(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ArticleDetailScreen(),
+                    builder: (context) => ArticleDetailScreen(
+                      article: article,
+                      isBookMarked: false,
+                    ),
                   ),
                 ),
                 child: VerticalNewsCard(

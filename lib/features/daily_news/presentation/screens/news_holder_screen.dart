@@ -1,4 +1,4 @@
-import 'package:clean_news_app/config/theme/color_manager.dart';
+import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/bookmark_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
@@ -38,20 +38,20 @@ class _NewsHolderScreenState extends State<NewsHolderScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: "Home",
-        activeColorPrimary: ColorManager.primary,
-        inactiveColorPrimary: ColorManager.mediumGrey,
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.shadowColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.search),
         title: "Discover",
-        activeColorPrimary: ColorManager.primary,
-        inactiveColorPrimary: ColorManager.mediumGrey,
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.shadowColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.bookmark_border),
         title: "Bookmark",
-        activeColorPrimary: ColorManager.primary,
-        inactiveColorPrimary: ColorManager.mediumGrey,
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.shadowColor,
       ),
     ];
   }
