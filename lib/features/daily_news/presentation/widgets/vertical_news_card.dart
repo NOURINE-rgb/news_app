@@ -101,7 +101,7 @@ class VerticalNewsCard extends StatelessWidget {
                 ),
                 verticalSpace(AppSize.s4.sp),
                 Text(
-                  article.content,
+                  article.description,
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

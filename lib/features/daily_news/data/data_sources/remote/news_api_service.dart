@@ -4,7 +4,7 @@ import 'package:clean_news_app/features/daily_news/data/models/article.dart';
 import 'package:dio/dio.dart';
 
 abstract class NewsApiService {
-  Future<List<ArticleModel>> getBreakingNewsArticles(String category,int page);
+  Future<List<ArticleModel>> getBreakingNewsArticles(String category, int page);
   Future<List<ArticleModel>> getRecommendedNews();
 }
 
@@ -13,10 +13,12 @@ class NewsApiServiceImpl implements NewsApiService {
   const NewsApiServiceImpl({required this.dio});
 
   @override
-  Future<List<ArticleModel>> getBreakingNewsArticles(String category,int page) async {
+  Future<List<ArticleModel>> getBreakingNewsArticles(
+      String category, int page) async {
     try {
-      final response = await dio.get(ApiConstance.breaking(category,page));
+      final response = await dio.get(ApiConstance.breaking(category, page));
       if (response.statusCode == 200) {
+        print(response.data);
         final newsResponse = NewsResponse.fromJson(response.data);
         return newsResponse.articles;
       } else {

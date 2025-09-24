@@ -156,7 +156,10 @@ Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
           child: InkWell(
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ArticleDetailScreen(),
+                builder: (context) => ArticleDetailScreen(
+                  article: article,
+                  isBookMarked: false,
+                ),
               ),
             ),
             child: HorizontalNewsCard(article),
@@ -183,10 +186,15 @@ Widget _buildBreakingNewsList(NewsState state) {
       return InkWell(
           onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ArticleDetailScreen(),
+                  builder: (context) => ArticleDetailScreen(
+                    article: state.breakingArticles[index],
+                    isBookMarked: false,
+                  ),
                 ),
               ),
-          child: VerticalNewsCard(article: state.breakingArticles[index]));
+          child: VerticalNewsCard(
+            article: state.breakingArticles[index],
+          ));
     },
   );
 }

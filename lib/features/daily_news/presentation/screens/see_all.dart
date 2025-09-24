@@ -69,7 +69,10 @@ class SeeAllScreen extends ConsumerWidget {
               return InkWell(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ArticleDetailScreen(),
+                    builder: (context) => ArticleDetailScreen(
+                      article: article,
+                      isBookMarked: false,
+                    ),
                   ),
                 ),
                 child: VerticalNewsCard(
