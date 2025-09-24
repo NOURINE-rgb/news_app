@@ -8,7 +8,7 @@ import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
+import 'package:clean_news_app/features/bookmark/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';

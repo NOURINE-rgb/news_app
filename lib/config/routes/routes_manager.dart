@@ -1,8 +1,8 @@
 import 'package:clean_news_app/core/constants/strings_manager.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
+import 'package:clean_news_app/features/search/presentation/screens/discover_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/news_holder_screen.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/onboarding_screen.dart';
+import 'package:clean_news_app/features/onboarding/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import '../../domain/entities/article.dart';
+import '../../../daily_news/domain/entities/article.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
   final ArticleEntity article;

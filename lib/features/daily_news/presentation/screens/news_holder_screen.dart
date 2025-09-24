@@ -1,6 +1,6 @@
 import 'package:clean_news_app/config/theme/app_colors.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/discover_screen.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/bookmark_screen.dart';
+import 'package:clean_news_app/features/search/presentation/screens/discover_screen.dart';
+import 'package:clean_news_app/features/bookmark/presentation/screens/bookmark_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';

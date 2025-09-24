@@ -5,9 +5,11 @@ import "package:clean_news_app/config/theme/values_manager.dart";
 import "package:clean_news_app/core/constants/assets_manager.dart";
 import "package:clean_news_app/core/constants/strings_manager.dart";
 import "package:clean_news_app/core/helpers/extensions.dart";
+import "package:clean_news_app/features/onboarding/usecaases/set_seen.dart";
 import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "../../../../config/theme/styles_manager.dart";
+import "../../../config/theme/styles_manager.dart";
+import "../../../core/service/dependency_injection.dart";
 
 class OboardingScreen extends StatelessWidget {
   const OboardingScreen({super.key});
@@ -50,8 +52,11 @@ class OboardingScreen extends StatelessWidget {
                     style: get14MediumStyle(color: AppColors.textSecondary),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      context.pushNamed(Routes.holderRoutes);
+                    onPressed: () async {
+                      await sl<SetOnboardingSeen>().call();
+                      if (context.mounted) {
+                        context.pushNamed(Routes.holderRoutes);
+                      }
                     },
                     icon: Icon(Icons.arrow_forward_outlined),
                     label: Text(
