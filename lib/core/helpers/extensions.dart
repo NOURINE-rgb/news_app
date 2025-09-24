@@ -1,4 +1,4 @@
-import 'package:clean_news_app/config/theme/color_manager.dart';
+import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 extension Navigation on BuildContext {
@@ -14,7 +14,7 @@ extension Navigation on BuildContext {
           arguments: arguments);
 
   void pop<T extends Object?>([T? result]) => Navigator.of(this).pop(result);
-  
+
   double get sizeWidth => MediaQuery.of(this).size.width;
   double get sizeHeight => MediaQuery.of(this).size.height;
 }
@@ -23,17 +23,17 @@ extension StringExtension on String? {
   bool isNullOrEmpty() => this == null || this == "";
 }
 
-extension AppColorsExtension on ColorManager {
+extension AppColorsExtension on AppColors {
   static ColorScheme get lightColorScheme => const ColorScheme.light(
-        primary: ColorManager.primary,
-        secondary: ColorManager.primaryLight,
-        surface: ColorManager.backgroundLight,
-        background: ColorManager.backgroundLight,
-        error: ColorManager.error,
-        onPrimary: ColorManager.textOnPrimary,
-        onSecondary: ColorManager.textPrimary,
-        onSurface: ColorManager.textPrimary,
-        onBackground: ColorManager.textPrimary,
-        onError: ColorManager.white,
+        primary: AppColors.primary,
+        secondary: AppColors.primaryLight,
+        surface: AppColors.backgroundLight,
+        background: AppColors.backgroundLight,
+        error: AppColors.error,
+        onPrimary: AppColors.textOnPrimary,
+        onSecondary: AppColors.textPrimary,
+        onSurface: AppColors.textPrimary,
+        onBackground: AppColors.textPrimary,
+        onError: AppColors.white,
       );
 }

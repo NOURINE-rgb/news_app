@@ -1,5 +1,5 @@
-import 'package:clean_news_app/config/theme/color_manager.dart';
-import 'package:clean_news_app/config/theme/font_manager.dart';
+import 'package:clean_news_app/config/theme/app_colors.dart';
+import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/constants/constants_var.dart';
 import 'package:clean_news_app/core/constants/strings_manager.dart';
@@ -43,10 +43,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         title: Text(
           "Daily News",
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(color: ColorManager.primary, fontSize: FontSize.s26.sp),
+          style: get22SemiBoldStyle(color: AppColors.primary),
         ),
       ),
       body: _buildBody(context, ref),
@@ -84,18 +81,15 @@ Widget _buildLoadedContent(
     },
     child: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: AppPadding.p16.sp, horizontal: AppPadding.p12.sp),
+        padding: EdgeInsets.all(AppPadding.p12.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionHeader(
-                title: StringsManager.recommendedNewsTitle,
-                onSeeAllPressed: () {}),
+            SectionHeader(title: StringsManager.recommendedNewsTitle),
             _buildRecommendedNewsCarousel(newsState.recommendedArticles),
-            verticalSpace(AppSize.s20.sp),
+            verticalSpace(AppSize.s14.h),
             SizedBox(
-              height: 40.sp,
+              height: 40.h,
               child: CategoriesChips(
                 categories: ConstantsVar.categories,
                 onCategorySelected: (String category) {
@@ -122,8 +116,8 @@ Widget _buildLoadedContent(
                 }),
             newsState.isBreakingLoading
                 ? Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
+                    baseColor: const Color(0xFFE0E0E0),
+                    highlightColor: AppColors.lightGrey,
                     child: VerticalNewsCardShimmer(),
                   )
                 : newsState.failureMessage == null
@@ -131,7 +125,7 @@ Widget _buildLoadedContent(
                     : Center(
                         child: Text(
                           newsState.failureMessage!,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: get16MediumStyle(color: AppColors.textPrimary),
                         ),
                       ),
           ],
@@ -143,14 +137,14 @@ Widget _buildLoadedContent(
 
 Widget _buildRecommendedNewsCarousel(List<ArticleEntity> news) {
   return SizedBox(
-    height: AppSize.s220.sp,
+    height: AppSize.s220.h,
     child: ListView.builder(
       itemCount: news.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         final article = news[index];
         return Container(
-          width: context.sizeWidth * 0.7,
+          width: context.sizeWidth * 0.8,
           margin: EdgeInsets.only(
               right: AppMargine.m12.sp, bottom: AppMargine.m8.sp),
           child: InkWell(
@@ -203,29 +197,27 @@ Widget _buildErrorState(
     String failureMessage, BuildContext context, WidgetRef ref) {
   return Center(
     child: Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(AppPadding.p16.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.error_outline,
-            size: 64,
+            size: 64.sp,
             color: Colors.red[300],
           ),
-          const SizedBox(height: 16),
+          verticalSpace(AppSize.s16.h),
           Text(
             'Oops! Something went wrong',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: get16BoldStyle(color: AppColors.textPrimary),
           ),
-          const SizedBox(height: 8),
+          verticalSpace(AppSize.s8.h),
           Text(
             failureMessage,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: get16MediumStyle(color: AppColors.textPrimary),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          verticalSpace(AppSize.s24.h),
           ElevatedButton.icon(
             onPressed: () {
               ref.read(newsNotifierProvider.notifier).loadAllNews();
@@ -233,7 +225,7 @@ Widget _buildErrorState(
             icon: const Icon(Icons.refresh),
             label: const Text('Try Again'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: ColorManager.primary,
+              backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
           ),

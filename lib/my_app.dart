@@ -9,12 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(430, 930),
+      designSize: Size(350, 800),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',
         locale: DevicePreview.locale(context),
+        
         builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.onboardingRoute,

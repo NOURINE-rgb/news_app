@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:clean_news_app/config/theme/color_manager.dart';
+import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:clean_news_app/config/theme/font_manager.dart';
+import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/date_format.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
@@ -37,7 +38,7 @@ class HorizontalNewsCard extends StatelessWidget {
                 ? CachedNetworkImage(
                     imageUrl: article.imageUrl,
                     fit: BoxFit.cover,
-                    height: AppSize.s220.sp - 60,
+                    height: AppSize.s220.h - 60.h,
                     width: double.infinity,
                     placeholder: (context, url) => ShimmerImage(),
                     errorWidget: (context, url, error) => Container(
@@ -61,7 +62,7 @@ class HorizontalNewsCard extends StatelessWidget {
               left: 0,
               bottom: 0,
               child: Container(
-                color: ColorManager.backgroundLight,
+                color: AppColors.backgroundLight,
               ),
             ),
             Positioned(
@@ -73,23 +74,15 @@ class HorizontalNewsCard extends StatelessWidget {
                 children: [
                   Text(
                     article.title,
-                    style: GoogleFonts.commissioner(
-                      color: ColorManager.dark,
-                      fontSize: FontSize.s18.sp,
-                      fontWeight: FontManager.bold,
+                    style: get16SemiBoldStyle(
+                      color: AppColors.textPrimary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   verticalSpace(AppSize.s4.sp),
-                  Text(
-                    formatDate(article.publishedAt),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: ColorManager.dark,
-                          fontSize: FontSize.s14.sp,
-                          fontWeight: FontManager.medium,
-                        ),
-                  ),
+                  Text(formatDate(article.publishedAt),
+                      style: get14MediumStyle(color: AppColors.textSecondary)),
                 ],
               ),
             ),
