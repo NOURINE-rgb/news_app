@@ -34,7 +34,7 @@ class VerticalNewsCard extends StatelessWidget {
         ],
         color: AppColors.backgroundLight,
       ),
-      height: category.isEmpty ? 140.h : 160.h,
+      height: category.isEmpty ? 140.w : 160.w,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,8 +43,8 @@ class VerticalNewsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s12.sp),
                   child: CachedNetworkImage(
                     imageUrl: article.imageUrl,
-                    width: 120.w,
-                    height: 140.h,
+                    width: 140.w,
+                    height: 140.w,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => ShimmerImage(),
                     errorWidget: (context, url, error) => Container(
@@ -56,8 +56,8 @@ class VerticalNewsCard extends StatelessWidget {
                 )
               : Container(
                   color: AppColors.lightGrey,
-                  width: 120.w,
-                  height: 140.h,
+                  width: 140.w,
+                  height: 140.w,
                   child: Center(
                     child: Icon(
                       Icons.image_not_supported,
@@ -70,11 +70,12 @@ class VerticalNewsCard extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (category.isNotEmpty)
                   Container(
-                    margin: EdgeInsets.only(bottom: AppMargine.m4.r),
-                    height: 30.h,
+                    // margin: EdgeInsets.only(bottom: AppMargine.m4.r),
+                    height: 23.h,
                     constraints: BoxConstraints(
                       minWidth: 60.w,
                       maxWidth: 120.h,
@@ -90,32 +91,33 @@ class VerticalNewsCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (category.isEmpty) verticalSpace(AppSize.s12.h),
+                if (category.isEmpty) verticalSpace(AppSize.s10.h),
                 Text(
                   article.title,
                   style: get16SemiBoldStyle(color: AppColors.textPrimary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                verticalSpace(AppSize.s4.h),
+                // verticalSpace(AppSize.s4.h),
                 Text(
                   article.description,
-                  style: get14MediumStyle(color: AppColors.textSecondary),
+                  style: get16MediumStyle(color: AppColors.textSecondary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                verticalSpace(AppSize.s4.h),
-                Text(
-                  formatDate(article.publishedAt),
-                  style: get14RegularStyle(color: AppColors.textSecondary),
+                // verticalSpace(AppSize.s4.h),
+                Expanded(
+                  child: Text(
+                    formatDate(article.publishedAt),
+                    style: get14RegularStyle(color: AppColors.textSecondary),
+                  ),
                 ),
               ],
             ),
           ),
           if (showBookMark)
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppPadding.p8.w, vertical: AppPadding.p16.h),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.w),
               child: Icon(
                 Icons.bookmark_border,
                 color: AppColors.primary,

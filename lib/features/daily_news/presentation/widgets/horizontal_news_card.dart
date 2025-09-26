@@ -1,16 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean_news_app/config/theme/app_colors.dart';
-import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/date_format.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
-import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/core/widgets/shimmer_image.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HorizontalNewsCard extends StatelessWidget {
   const HorizontalNewsCard(this.article, {super.key});
@@ -57,33 +54,34 @@ class HorizontalNewsCard extends StatelessWidget {
                     ),
                   ),
             Positioned(
-              top: 120.sp,
+              top: 120.h,
               right: 0,
               left: 0,
               bottom: 0,
               child: Container(
                 color: AppColors.backgroundLight,
-              ),
-            ),
-            Positioned(
-              bottom: AppSize.s10.sp,
-              left: AppSize.s14.sp,
-              right: AppSize.s12.sp,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    article.title,
-                    style: get16SemiBoldStyle(
-                      color: AppColors.textPrimary,
+                padding: EdgeInsets.symmetric(
+                        horizontal: AppPadding.p12, vertical: AppPadding.p4)
+                    .r,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      article.title,
+                      style: get16SemiBoldStyle(
+                        color: AppColors.textPrimary,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  verticalSpace(AppSize.s4.sp),
-                  Text(formatDate(article.publishedAt),
-                      style: get14MediumStyle(color: AppColors.textSecondary)),
-                ],
+                    Expanded(
+                      child: Text(formatDate(article.publishedAt),
+                          style:
+                              get16MediumStyle(color: AppColors.textSecondary)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

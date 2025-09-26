@@ -11,7 +11,7 @@ TextStyle _getTextStyle(
   TextDecoration decoration = TextDecoration.none,
 }) {
   return GoogleFonts.commissioner(
-    fontSize: fontSize.sp,
+    fontSize: fontSize.r,
     fontWeight: fontWeight,
     color: color,
     decoration: decoration,
@@ -59,8 +59,8 @@ TextStyle get12RegularStyle({
 }
 
 // Bold
-TextStyle get24BoldStyle({
-  double fontSize = FontSize.s24,
+TextStyle get26BoldStyle({
+  double fontSize = FontSize.s26,
   required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
@@ -71,8 +71,9 @@ TextStyle get24BoldStyle({
     decoration: decoration,
   );
 }
-TextStyle get18BoldStyle({
-  double fontSize = FontSize.s18,
+
+TextStyle get20BoldStyle({
+  double fontSize = FontSize.s20,
   required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
@@ -83,6 +84,7 @@ TextStyle get18BoldStyle({
     decoration: decoration,
   );
 }
+
 TextStyle get16BoldStyle({
   double fontSize = FontSize.s16,
   required Color color,
@@ -138,9 +140,22 @@ TextStyle get16SemiBoldStyle({
 }
 
 // Medium
+TextStyle get18MediumStyle({
+  double fontSize = FontSize.s18,
+  Color color = AppColors.textPrimary,
+  TextDecoration decoration = TextDecoration.none,
+}) {
+  return _getTextStyle(
+    fontSize,
+    FontManager.medium,
+    color,
+    decoration: decoration,
+  );
+}
+
 TextStyle get16MediumStyle({
   double fontSize = FontSize.s16,
-  Color color = AppColors.textPrimary,
+  required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
   return _getTextStyle(

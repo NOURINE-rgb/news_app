@@ -15,7 +15,7 @@ import '../constants/storage_keys.dart';
 
 final sl = GetIt.instance;
 
-void setupLocator() async {
+Future<void> setupLocator() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox(StorageKeys.onboardingBox);

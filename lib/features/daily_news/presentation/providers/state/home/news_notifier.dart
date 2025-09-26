@@ -17,43 +17,37 @@ class NewsNotifier extends StateNotifier<NewsState> {
         isBreakingLoading: true,
         isRecommendedLoading: true,
         failureMessage: null);
-    try {
-      final result = await Future.wait([
-        getBreakingNewsArticle.call(
-            params: BreakingNewsParams(category: "business", page: 1)),
-        getRecommendedArticle.call()
-      ]);
-      final breakingResult = result[0];
-      final recommendedResult = result[1];
-      if (breakingResult.isLeft() || recommendedResult.isLeft()) {
-        final failure = breakingResult.isLeft()
-            ? breakingResult.fold((l) => l, (r) => null)
-            : recommendedResult.fold((l) => l, (r) => null);
-        state = state.copyWith(
-            isBreakingLoading: false,
-            isRecommendedLoading: false,
-            failureMessage: mapFailureToMessage(failure!));
-      }
-      final breakingNews = breakingResult.fold(
-        (l) => <ArticleEntity>[],
-        (r) => r,
-      );
-      final recommendedNews = recommendedResult.fold(
-        (l) => <ArticleEntity>[],
-        (r) => r,
-      );
+    final result = await Future.wait([
+      getBreakingNewsArticle.call(
+          params: BreakingNewsParams(category: "business", page: 1)),
+      getRecommendedArticle.call()
+    ]);
+    final breakingResult = result[0];
+    final recommendedResult = result[1];
+    if (breakingResult.isLeft() || recommendedResult.isLeft()) {
+      final failure = breakingResult.isLeft()
+          ? breakingResult.fold((l) => l, (r) => null)
+          : recommendedResult.fold((l) => l, (r) => null);
       state = state.copyWith(
           isBreakingLoading: false,
           isRecommendedLoading: false,
-          breakingArticles: breakingNews,
-          recommendedArticles: recommendedNews,
-          failureMessage: null);
-    } catch (e) {
-      state = state.copyWith(
-          isBreakingLoading: false,
-          isRecommendedLoading: false,
-          failureMessage: e.toString());
+          failureMessage: mapFailureToMessage(failure!));
+      return;
     }
+    final breakingNews = breakingResult.fold(
+      (l) => <ArticleEntity>[],
+      (r) => r,
+    );
+    final recommendedNews = recommendedResult.fold(
+      (l) => <ArticleEntity>[],
+      (r) => r,
+    );
+    state = state.copyWith(
+        isBreakingLoading: false,
+        isRecommendedLoading: false,
+        breakingArticles: breakingNews,
+        recommendedArticles: recommendedNews,
+        failureMessage: null);
   }
 
   Future<void> loadBreakingNewsByCategory(String category) async {
