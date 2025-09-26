@@ -119,7 +119,7 @@ class VerticalNewsCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.w),
               child: Icon(
-                Icons.bookmark_border,
+                Icons.bookmark ,
                 color: AppColors.primary,
                 size: 24.sp,
               ),
