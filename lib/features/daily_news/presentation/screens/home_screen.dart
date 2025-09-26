@@ -55,7 +55,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         title: Text(
           "Daily News",
-          style: get22SemiBoldStyle(color: AppColors.primary),
+          
         ),
       ),
       body: _buildBody(context, ref),

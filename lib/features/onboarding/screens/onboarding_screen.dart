@@ -60,7 +60,6 @@ class OboardingScreen extends StatelessWidget {
                     icon: Icon(Icons.arrow_forward_outlined),
                     label: Text(
                       StringsManager.oboardingScreenTextButton,
-                      style: get18MediumStyle(color: AppColors.textOnPrimary),
                     ),
                     iconAlignment: IconAlignment.end,
                   ),

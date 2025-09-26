@@ -30,10 +30,7 @@ class SectionHeader extends StatelessWidget {
               onPressed: onSeeAllPressed,
               child: Text(
                 StringsManager.seeAll,
-                style: get16MediumStyle(
-                  color: AppColors.primary,
-                  decoration: TextDecoration.underline,
-                ),
+              
               ),
             ),
         ],

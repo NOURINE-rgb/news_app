@@ -32,31 +32,6 @@ TextStyle get14RegularStyle({
   );
 }
 
-TextStyle get16RegularStyle({
-  double fontSize = FontSize.s16,
-  Color color = AppColors.textHint,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.regular,
-    color,
-    decoration: decoration,
-  );
-}
-
-TextStyle get12RegularStyle({
-  double fontSize = FontSize.s12,
-  Color color = AppColors.textHint,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.regular,
-    color,
-    decoration: decoration,
-  );
-}
 
 // Bold
 TextStyle get26BoldStyle({
@@ -113,18 +88,7 @@ TextStyle get22SemiBoldStyle({
   );
 }
 
-TextStyle get14SemiBoldStyle({
-  double fontSize = FontSize.s14,
-  Color color = AppColors.textPrimary,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.semiBold,
-    color,
-    decoration: decoration,
-  );
-}
+
 
 TextStyle get16SemiBoldStyle({
   double fontSize = FontSize.s16,

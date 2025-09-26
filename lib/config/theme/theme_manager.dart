@@ -20,9 +20,7 @@ ThemeData getAppTheme() => ThemeData(
         shadowColor: AppColors.lightGrey,
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        titleTextStyle: get22SemiBoldStyle(
-          color: AppColors.textPrimary,
-        ),
+        titleTextStyle: get22SemiBoldStyle(color: AppColors.primary),
         iconTheme: const IconThemeData(
           color: AppColors.textPrimary,
           size: 24,
@@ -44,19 +42,16 @@ ThemeData getAppTheme() => ThemeData(
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textOnPrimary,
-          elevation: 2,
-          shadowColor: AppColors.shadowColor,
-          surfaceTintColor: Colors.transparent,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          textStyle: get16SemiBoldStyle(
-            color: AppColors.textOnPrimary,
-          ),
-        ),
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.textOnPrimary,
+            elevation: 2,
+            shadowColor: AppColors.shadowColor,
+            surfaceTintColor: Colors.transparent,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            textStyle: get18MediumStyle()),
       ),
 
       textButtonTheme: TextButtonThemeData(
@@ -66,59 +61,46 @@ ThemeData getAppTheme() => ThemeData(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          textStyle: get14SemiBoldStyle(
+          textStyle: get16MediumStyle(
             color: AppColors.primary,
-          ),
-        ),
-      ),
-
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary, width: 1.5),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          textStyle: get16SemiBoldStyle(
-            color: AppColors.primary,
+            decoration: TextDecoration.underline,
           ),
         ),
       ),
 
       // Input Decoration Theme
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: AppColors.lightGrey,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        hintStyle: get16RegularStyle(
-          color: AppColors.textHint,
-        ),
-        labelStyle: get16RegularStyle(
-          color: AppColors.textSecondary,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.error, width: 1),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.error, width: 2),
-        ),
-      ),
+      // inputDecorationTheme: InputDecorationTheme(
+      //   filled: true,
+      //   fillColor: AppColors.lightGrey,
+      //   contentPadding:
+      //       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      //   hintStyle: get16RegularStyle(
+      //     color: AppColors.textHint,
+      //   ),
+      //   labelStyle: get16RegularStyle(
+      //     color: AppColors.textSecondary,
+      //   ),
+      //   border: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: BorderSide.none,
+      //   ),
+      //   enabledBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: BorderSide.none,
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: const BorderSide(color: AppColors.primary, width: 2),
+      //   ),
+      //   errorBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: const BorderSide(color: AppColors.error, width: 1),
+      //   ),
+      //   focusedErrorBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: const BorderSide(color: AppColors.error, width: 2),
+      //   ),
+      // ),
 
       iconTheme: const IconThemeData(
         color: AppColors.textSecondary,
