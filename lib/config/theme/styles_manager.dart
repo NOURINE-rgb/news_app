@@ -11,7 +11,7 @@ TextStyle _getTextStyle(
   TextDecoration decoration = TextDecoration.none,
 }) {
   return GoogleFonts.commissioner(
-    fontSize: fontSize.sp,
+    fontSize: fontSize.r,
     fontWeight: fontWeight,
     color: color,
     decoration: decoration,
@@ -32,35 +32,10 @@ TextStyle get14RegularStyle({
   );
 }
 
-TextStyle get16RegularStyle({
-  double fontSize = FontSize.s16,
-  Color color = AppColors.textHint,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.regular,
-    color,
-    decoration: decoration,
-  );
-}
-
-TextStyle get12RegularStyle({
-  double fontSize = FontSize.s12,
-  Color color = AppColors.textHint,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.regular,
-    color,
-    decoration: decoration,
-  );
-}
 
 // Bold
-TextStyle get24BoldStyle({
-  double fontSize = FontSize.s24,
+TextStyle get26BoldStyle({
+  double fontSize = FontSize.s26,
   required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
@@ -71,8 +46,9 @@ TextStyle get24BoldStyle({
     decoration: decoration,
   );
 }
-TextStyle get18BoldStyle({
-  double fontSize = FontSize.s18,
+
+TextStyle get20BoldStyle({
+  double fontSize = FontSize.s20,
   required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
@@ -83,6 +59,7 @@ TextStyle get18BoldStyle({
     decoration: decoration,
   );
 }
+
 TextStyle get16BoldStyle({
   double fontSize = FontSize.s16,
   required Color color,
@@ -111,18 +88,7 @@ TextStyle get22SemiBoldStyle({
   );
 }
 
-TextStyle get14SemiBoldStyle({
-  double fontSize = FontSize.s14,
-  Color color = AppColors.textPrimary,
-  TextDecoration decoration = TextDecoration.none,
-}) {
-  return _getTextStyle(
-    fontSize,
-    FontManager.semiBold,
-    color,
-    decoration: decoration,
-  );
-}
+
 
 TextStyle get16SemiBoldStyle({
   double fontSize = FontSize.s16,
@@ -138,9 +104,22 @@ TextStyle get16SemiBoldStyle({
 }
 
 // Medium
+TextStyle get18MediumStyle({
+  double fontSize = FontSize.s18,
+  Color color = AppColors.textPrimary,
+  TextDecoration decoration = TextDecoration.none,
+}) {
+  return _getTextStyle(
+    fontSize,
+    FontManager.medium,
+    color,
+    decoration: decoration,
+  );
+}
+
 TextStyle get16MediumStyle({
   double fontSize = FontSize.s16,
-  Color color = AppColors.textPrimary,
+  required Color color,
   TextDecoration decoration = TextDecoration.none,
 }) {
   return _getTextStyle(

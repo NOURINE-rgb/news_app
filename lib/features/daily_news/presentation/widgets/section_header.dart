@@ -23,17 +23,14 @@ class SectionHeader extends StatelessWidget {
         children: [
           Text(
             title,
-            style: get18BoldStyle(color: AppColors.textPrimary),
+            style: get20BoldStyle(color: AppColors.textPrimary),
           ),
           if (onSeeAllPressed != null)
             TextButton(
               onPressed: onSeeAllPressed,
               child: Text(
                 StringsManager.seeAll,
-                style: get14MediumStyle(
-                  color: AppColors.primary,
-                  decoration: TextDecoration.underline,
-                ),
+              
               ),
             ),
         ],

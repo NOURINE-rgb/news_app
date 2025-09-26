@@ -1,4 +1,5 @@
 import 'package:clean_news_app/config/theme/app_colors.dart';
+import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/constants/constants_var.dart';
@@ -8,7 +9,7 @@ import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
+import 'package:clean_news_app/features/bookmark/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/screens/see_all.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/category_chips.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/horizontal_news_card.dart';
@@ -39,11 +40,22 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print($AppSize.s12.sp);
+    print("********************************");
+    print(context.sizeWidth);
+    print(context.sizeHeight);
+    print(70.h);
+    print(70.w);
+    print(FontSize.s18.sp);
+    print(18.h);
+    print(18.w);
+    print(18.r);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Daily News",
-          style: get22SemiBoldStyle(color: AppColors.primary),
+          
         ),
       ),
       body: _buildBody(context, ref),
@@ -79,56 +91,60 @@ Widget _buildLoadedContent(
       }
       return false;
     },
-    child: SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SectionHeader(title: StringsManager.recommendedNewsTitle),
-            _buildRecommendedNewsCarousel(newsState.recommendedArticles),
-            verticalSpace(AppSize.s14.h),
-            SizedBox(
-              height: 40.h,
-              child: CategoriesChips(
-                categories: ConstantsVar.categories,
-                onCategorySelected: (String category) {
-                  ref
-                      .read(newsNotifierProvider.notifier)
-                      .loadBreakingNewsByCategory(category.toLowerCase());
-                },
-                chipType: ChipType.categoryHome,
+    child: RefreshIndicator(
+      onRefresh: () => ref.read(newsNotifierProvider.notifier).loadAllNews(),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(AppPadding.p12.sp),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SectionHeader(title: StringsManager.recommendedNewsTitle),
+              _buildRecommendedNewsCarousel(newsState.recommendedArticles),
+              verticalSpace(AppSize.s12.h),
+              SizedBox(
+                height: 40.h,
+                child: CategoriesChips(
+                  categories: ConstantsVar.categories,
+                  onCategorySelected: (String category) {
+                    ref
+                        .read(newsNotifierProvider.notifier)
+                        .loadBreakingNewsByCategory(category.toLowerCase());
+                  },
+                  chipType: ChipType.categoryHome,
+                ),
               ),
-            ),
-            SectionHeader(
-                title: StringsManager.breakingNewsTitle,
-                onSeeAllPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SeeAllScreen(
-                        news: newsState.breakingArticles,
-                        title: StringsManager.breakingNewsTitle,
-                        category: ConstantsVar.categories[selectedCategory],
-                        page: newsState.breakingCurrentPage,
-                      ),
-                    ),
-                  );
-                }),
-            newsState.isBreakingLoading
-                ? Shimmer.fromColors(
-                    baseColor: const Color(0xFFE0E0E0),
-                    highlightColor: AppColors.lightGrey,
-                    child: VerticalNewsCardShimmer(),
-                  )
-                : newsState.failureMessage == null
-                    ? _buildBreakingNewsList(newsState)
-                    : Center(
-                        child: Text(
-                          newsState.failureMessage!,
-                          style: get16MediumStyle(color: AppColors.textPrimary),
+              SectionHeader(
+                  title: StringsManager.breakingNewsTitle,
+                  onSeeAllPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SeeAllScreen(
+                          news: newsState.breakingArticles,
+                          title: StringsManager.breakingNewsTitle,
+                          category: ConstantsVar.categories[selectedCategory],
+                          page: newsState.breakingCurrentPage,
                         ),
                       ),
-          ],
+                    );
+                  }),
+              newsState.isBreakingLoading
+                  ? Shimmer.fromColors(
+                      baseColor: const Color(0xFFE0E0E0),
+                      highlightColor: AppColors.lightGrey,
+                      child: VerticalNewsCardShimmer(),
+                    )
+                  : newsState.failureMessage == null
+                      ? _buildBreakingNewsList(newsState)
+                      : Center(
+                          child: Text(
+                            newsState.failureMessage!,
+                            style:
+                                get18MediumStyle(color: AppColors.textPrimary),
+                          ),
+                        ),
+            ],
+          ),
         ),
       ),
     ),
@@ -214,7 +230,7 @@ Widget _buildErrorState(
           verticalSpace(AppSize.s8.h),
           Text(
             failureMessage,
-            style: get16MediumStyle(color: AppColors.textPrimary),
+            style: get18MediumStyle(color: AppColors.textPrimary),
             textAlign: TextAlign.center,
           ),
           verticalSpace(AppSize.s24.h),

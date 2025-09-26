@@ -57,6 +57,7 @@ ServerException _handleDioError(DioException e) {
   if (e.type == DioExceptionType.connectionTimeout ||
       e.type == DioExceptionType.receiveTimeout ||
       e.type == DioExceptionType.sendTimeout) {
+        
     return ServerException(message: 'Connection timeout');
   } else if (e.type == DioExceptionType.badResponse) {
     return ServerException(message: 'Bad response: ${e.response?.statusCode}');

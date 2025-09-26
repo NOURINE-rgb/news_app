@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  setupLocator();
-  runApp(
-    DevicePreview(
-        enabled: true,
-        builder: (context) => ProviderScope(child: const MyApp())),
-  );
+  await setupLocator();
+  runApp(DevicePreview(
+      enabled: true,
+      builder: (context) => ProviderScope(child: const MyApp())));
 }

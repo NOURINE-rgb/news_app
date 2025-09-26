@@ -2,7 +2,7 @@ import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/providers.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/see_all/see_all_notifier.dart';
-import 'package:clean_news_app/features/daily_news/presentation/screens/article_details_screen.dart';
+import 'package:clean_news_app/features/bookmark/presentation/screens/article_details_screen.dart';
 import 'package:clean_news_app/features/daily_news/presentation/widgets/vertical_news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

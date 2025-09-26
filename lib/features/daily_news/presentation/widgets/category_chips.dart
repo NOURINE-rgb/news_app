@@ -45,7 +45,7 @@ class CategoriesChips extends ConsumerWidget {
       inactiveTextColorList: [Colors.black],
       showCheckmark: false,
       spacing: AppSize.s4.r,
-      style: get14MediumStyle(color: AppColors.textOnPrimary),
+      style: get16MediumStyle(color: AppColors.textOnPrimary),
       extraOnToggle: (index) {
         onCategorySelected.call(categories[index]);
         ref.read(provider.notifier).state = index;
