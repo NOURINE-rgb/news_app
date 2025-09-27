@@ -51,9 +51,10 @@ Future<void> setupLocator() async {
 
 Future<void> _setupHive() async {
   await Hive.initFlutter();
+  // await Hive.deleteBoxFromDisk(StorageKeys.bookmarkBox);
+  Hive.registerAdapter(ArticleEntityAdapter());
   await Hive.openBox(StorageKeys.onboardingBox);
   await Hive.openBox<ArticleEntity>(StorageKeys.bookmarkBox);
-  Hive.registerAdapter(ArticleEntityAdapter());
   sl.registerLazySingleton<Box<ArticleEntity>>(
     () => Hive.box<ArticleEntity>(StorageKeys.bookmarkBox),
   );

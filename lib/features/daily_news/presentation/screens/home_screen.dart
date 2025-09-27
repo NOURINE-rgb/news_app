@@ -1,5 +1,4 @@
 import 'package:clean_news_app/config/theme/app_colors.dart';
-import 'package:clean_news_app/config/theme/font_manager.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/constants/constants_var.dart';
@@ -40,17 +39,6 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print($AppSize.s12.sp);
-    print("********************************");
-    print(context.sizeWidth);
-    print(context.sizeHeight);
-    print(70.h);
-    print(70.w);
-    print(FontSize.s18.sp);
-    print(18.h);
-    print(18.w);
-    print(18.r);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -75,8 +63,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
     return HomeShimmer();
   }
 
-  Widget _buildLoadedContent(
-      NewsState newsState) {
+  Widget _buildLoadedContent(NewsState newsState) {
     final selectedCategory = ref.watch(selectedCategoryHomeProvider);
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
@@ -163,6 +150,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
             margin: EdgeInsets.only(
                 right: AppMargine.m12.sp, bottom: AppMargine.m8.sp),
             child: InkWell(
+              //TODO: change navigation
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ArticleDetailScreen(
@@ -170,7 +158,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
                   ),
                 ),
               ),
-              child: HorizontalNewsCard(article),
+              child: Hero(tag: article.url, child: HorizontalNewsCard(article)),
             ),
           );
         },
@@ -192,6 +180,7 @@ class _HomePageState extends ConsumerState<HomeScreen> {
           );
         }
         return InkWell(
+            //TODO: chage it with navigation genrator
             onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ArticleDetailScreen(
@@ -199,8 +188,11 @@ class _HomePageState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                 ),
-            child: VerticalNewsCard(
-              article: state.breakingArticles[index],
+            child: Hero(
+              tag: state.breakingArticles[index].url,
+              child: VerticalNewsCard(
+                article: state.breakingArticles[index],
+              ),
             ));
       },
     );

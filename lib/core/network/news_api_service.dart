@@ -17,9 +17,10 @@ class NewsApiServiceImpl implements NewsApiService {
       String category, int page) async {
     try {
       final response = await dio.get(ApiEndoints.breaking(category, page));
+
       if (response.statusCode == 200) {
-        print(response.data);
         final newsResponse = NewsResponse.fromJson(response.data);
+        print(newsResponse.articles);
         return newsResponse.articles;
       } else {
         print("${response.statusCode} ************");

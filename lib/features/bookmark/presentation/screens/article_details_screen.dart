@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
@@ -47,11 +48,14 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
             children: [
               Stack(
                 children: [
-                  Image.network(
-                    widget.article.imageUrl,
-                    width: double.infinity,
-                    height: 200.h,
-                    fit: BoxFit.cover,
+                  Hero(
+                    tag : widget.article.url, 
+                    child: CachedNetworkImage(
+                      imageUrl: widget.article.imageUrl,
+                      width: double.infinity,
+                      height: 200.h,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Container(
                     height: 200.h,

@@ -11,17 +11,30 @@ import '../../../../core/helpers/spacing.dart';
 import '../../../../core/shared/widgets/vertical_news_card.dart';
 import 'article_details_screen.dart';
 
-class BookmarkScreen extends ConsumerWidget {
+class BookmarkScreen extends ConsumerStatefulWidget {
   const BookmarkScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BookmarkScreen> createState() => _BookmarkScreenState();
+}
+
+class _BookmarkScreenState extends ConsumerState<BookmarkScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => ref.read(bookmarkProvider.notifier).getBookmarkedArticles(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final bookmarkState = ref.watch(bookmarkProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text("Saved Articles"),
       ),
-      body: _build(bookmarkState , ref),
+      body: _build(bookmarkState, ref),
     );
   }
 
@@ -90,19 +103,24 @@ class BookmarkScreen extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: length,
+      padding: EdgeInsets.all(AppPadding.p12).r,
       separatorBuilder: (context, index) => verticalSpace(AppSize.s12.h),
       itemBuilder: (context, index) {
+        final indx = length - index - 1;
         return InkWell(
+            //TODO: change tis navigation
             onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ArticleDetailScreen(
-                      article: state.bookmarkedArticles[index],
+                      article: state.bookmarkedArticles[indx],
                     ),
                   ),
                 ),
-            child: VerticalNewsCard(
-              article: state.bookmarkedArticles[index],
-              showBookMark: true,
+            child: Hero(
+              tag: state.bookmarkedArticles[index].url,
+              child: VerticalNewsCard(
+                article: state.bookmarkedArticles[indx],
+              ),
             ));
       },
     );

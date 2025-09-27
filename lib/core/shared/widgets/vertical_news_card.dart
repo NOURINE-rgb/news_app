@@ -12,11 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class VerticalNewsCard extends StatelessWidget {
   const VerticalNewsCard(
       {super.key,
-      this.showBookMark = false,
       required this.article,
       this.category = ""});
   final ArticleEntity article;
-  final bool showBookMark;
   final String category;
 
   @override
@@ -115,15 +113,6 @@ class VerticalNewsCard extends StatelessWidget {
               ],
             ),
           ),
-          if (showBookMark)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.w),
-              child: Icon(
-                Icons.bookmark ,
-                color: AppColors.primary,
-                size: 24.sp,
-              ),
-            ),
         ],
       ),
     );
