@@ -4,7 +4,7 @@ import 'package:clean_news_app/features/bookmark/domain/usecases/check_bookmark_
 import 'package:clean_news_app/features/bookmark/domain/usecases/get_bookmarked_articels.dart';
 import 'package:clean_news_app/features/bookmark/presentation/providers/bookmark_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
 import '../../domain/usecases/unbookmark_article_usecase.dart';
 
 class BookmarkNotifier extends StateNotifier<BookmarkState> {

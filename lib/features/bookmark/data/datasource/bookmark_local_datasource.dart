@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
 
 abstract class BookmarkLocalDataSource{
     Future<List<ArticleEntity>> getBookmarkedArticles();

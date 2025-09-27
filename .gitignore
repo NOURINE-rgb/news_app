@@ -35,6 +35,7 @@ migrate_working_dir/
 windows/
 macos/
 linux/
+.env/
 
 # Symbolication related
 app.*.symbols

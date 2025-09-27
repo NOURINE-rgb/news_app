@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
 import '../repositories/bookmark_repo.dart';
 
 class RemoveBookmarkUseCase {

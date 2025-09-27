@@ -1,7 +1,7 @@
 import 'package:clean_news_app/features/bookmark/data/datasource/bookmark_local_datasource.dart';
 import 'package:clean_news_app/features/bookmark/domain/repositories/bookmark_repo.dart';
 import 'package:dartz/dartz.dart';
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
 
 class BookmarkRepoImpl implements BookmarkRepo {
   final BookmarkLocalDataSource localDataSource;

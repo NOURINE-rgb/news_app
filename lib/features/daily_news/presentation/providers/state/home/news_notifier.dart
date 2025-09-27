@@ -1,4 +1,4 @@
-import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
+import 'package:clean_news_app/core/shared/entities/article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_breaking_news_article.dart';
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommended_article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';

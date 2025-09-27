@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
 import '../providers/bookmark_provider.dart';
 
 class ArticleDetailScreen extends ConsumerStatefulWidget {

@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/theme/values_manager.dart';
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/widgets/vertical_news_card.dart';
+import '../../../../core/shared/widgets/vertical_news_card.dart';
 import 'article_details_screen.dart';
 
 class BookmarkScreen extends ConsumerWidget {
