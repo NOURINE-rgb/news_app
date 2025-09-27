@@ -4,19 +4,17 @@ import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/date_format.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
-import 'package:clean_news_app/core/widgets/shimmer_image.dart';
-import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
+import 'package:clean_news_app/core/shared/widgets/shimmer_image.dart';
+import 'package:clean_news_app/core/shared/entities/article.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerticalNewsCard extends StatelessWidget {
   const VerticalNewsCard(
       {super.key,
-      this.showBookMark = false,
       required this.article,
       this.category = ""});
   final ArticleEntity article;
-  final bool showBookMark;
   final String category;
 
   @override
@@ -115,15 +113,6 @@ class VerticalNewsCard extends StatelessWidget {
               ],
             ),
           ),
-          if (showBookMark)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.w),
-              child: Icon(
-                Icons.bookmark_border,
-                color: AppColors.primary,
-                size: 24.sp,
-              ),
-            ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain/entities/article.dart';
+import '../../../../../../core/shared/entities/article.dart';
 
 class SeeAllState extends Equatable{
   final List<ArticleEntity> articles;

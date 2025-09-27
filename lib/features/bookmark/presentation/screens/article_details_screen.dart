@@ -1,26 +1,45 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean_news_app/config/theme/app_colors.dart';
 import 'package:clean_news_app/config/theme/styles_manager.dart';
 import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/spacing.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import '../../../daily_news/domain/entities/article.dart';
+import '../../../../core/shared/entities/article.dart';
+import '../providers/bookmark_provider.dart';
 
-class ArticleDetailScreen extends StatelessWidget {
+class ArticleDetailScreen extends ConsumerStatefulWidget {
   final ArticleEntity article;
-  final bool isBookMarked;
 
-  const ArticleDetailScreen(
-      {super.key, required this.article, required this.isBookMarked});
+  const ArticleDetailScreen({super.key, required this.article});
+
+  @override
+  ConsumerState<ArticleDetailScreen> createState() =>
+      _ArticleDetailScreenState();
+}
+
+class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(bookmarkProvider.notifier)
+          .checkBookmarkStatus(widget.article.url);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final formattedDate =
-        DateFormat.yMMMd().format(DateTime.parse(article.publishedAt));
-
+        DateFormat.yMMMd().format(DateTime.parse(widget.article.publishedAt));
+    final bookmarkState = ref.watch(bookmarkProvider);
+    final isBookmarked =
+        bookmarkState.statusBookmark[widget.article.url] ?? false;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -29,11 +48,14 @@ class ArticleDetailScreen extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.network(
-                    article.imageUrl,
-                    width: double.infinity,
-                    height: 200.h,
-                    fit: BoxFit.cover,
+                  Hero(
+                    tag : widget.article.url, 
+                    child: CachedNetworkImage(
+                      imageUrl: widget.article.imageUrl,
+                      width: double.infinity,
+                      height: 200.h,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Container(
                     height: 200.h,
@@ -57,9 +79,13 @@ class ArticleDetailScreen extends StatelessWidget {
                     top: AppSize.s18.h,
                     right: AppSize.s16.w,
                     child: IconButton(
-                      icon: Icon(Icons.bookmark_border, color: AppColors.white),
+                      icon: Icon(
+                          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                          color: AppColors.white),
                       onPressed: () {
-                        // TODO: Handle bookmark
+                        ref
+                            .read(bookmarkProvider.notifier)
+                            .toggleBookmark(widget.article);
                       },
                     ),
                   ),
@@ -73,12 +99,12 @@ class ArticleDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      article.title,
+                      widget.article.title,
                       style: get20BoldStyle(color: AppColors.textPrimary),
                     ),
                     verticalSpace(AppSize.s8.h),
                     Text(
-                      article.description,
+                      widget.article.description,
                       style: get16MediumStyle(
                         color: AppColors.textPrimary,
                         fontSize: 14,
@@ -89,14 +115,14 @@ class ArticleDetailScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: article.content
+                            text: widget.article.content
                                 .replaceAll(RegExp(r'\[\+\d+ chars\]'), ""),
                             style: get16MediumStyle(
                               color: AppColors.textPrimary,
                               fontSize: 14,
                             ),
                           ),
-                          if (article.content.contains("[+"))
+                          if (widget.article.content.contains("[+"))
                             TextSpan(
                               text: " Read More",
                               style: get16MediumStyle(
@@ -107,7 +133,7 @@ class ArticleDetailScreen extends StatelessWidget {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () async {
-                                  final url = Uri.parse(article.url);
+                                  final url = Uri.parse(widget.article.url);
                                   if (await canLaunchUrl(url)) {
                                     await launchUrl(url,
                                         mode: LaunchMode.externalApplication);
@@ -122,7 +148,7 @@ class ArticleDetailScreen extends StatelessWidget {
                     verticalSpace(AppSize.s36),
                     Center(
                       child: Text(
-                        "$formattedDate • ${article.author} • ${article.sourceName}",
+                        "$formattedDate • ${widget.article.author} • ${widget.article.sourceName}",
                         style: get14MediumStyle(color: AppColors.textSecondary),
                       ),
                     ),

@@ -1,4 +1,4 @@
-import 'package:clean_news_app/features/daily_news/domain/entities/article.dart';
+import 'package:clean_news_app/core/shared/entities/article.dart';
 
 class ArticleModel extends ArticleEntity {
   const ArticleModel({

@@ -3,7 +3,7 @@ import 'package:clean_news_app/features/daily_news/presentation/providers/state/
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../core/helpers/map_failure_message.dart';
-import '../../../../domain/entities/article.dart';
+import '../../../../../../core/shared/entities/article.dart';
 
 class SeeAllParams extends Equatable{
   final List<ArticleEntity> initialNews;
