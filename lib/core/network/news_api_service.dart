@@ -3,9 +3,13 @@ import 'package:clean_news_app/core/errors/exceptions.dart';
 import 'package:clean_news_app/features/daily_news/data/models/article.dart';
 import 'package:dio/dio.dart';
 
+import '../../features/search/domain/usecases/filter_news_usecase.dart';
+
 abstract class NewsApiService {
   Future<List<ArticleModel>> getBreakingNewsArticles(String category, int page);
   Future<List<ArticleModel>> getRecommendedNews();
+  Future<List<ArticleModel>> filterNews(FilterNewsParams params);
+  Future<List<ArticleModel>> search(String query);
 }
 
 class NewsApiServiceImpl implements NewsApiService {
@@ -20,15 +24,12 @@ class NewsApiServiceImpl implements NewsApiService {
 
       if (response.statusCode == 200) {
         final newsResponse = NewsResponse.fromJson(response.data);
-        print(newsResponse.articles);
         return newsResponse.articles;
       } else {
-        print("${response.statusCode} ************");
         throw ServerException(
             message: 'Failed to fetch news: ${response.statusCode}');
       }
     } on DioException catch (e) {
-      print("dio exception ************ ${e.message}");
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unknown error: $e');
@@ -50,6 +51,35 @@ class NewsApiServiceImpl implements NewsApiService {
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unknown error: $e');
+    }
+  }
+
+  @override
+  Future<List<ArticleModel>> filterNews(FilterNewsParams params) async {
+    try {
+      final response = await dio.get(
+          ApiEndoints.filter(params.category, params.country, params.sortBy));
+      if (response.statusCode == 200) {
+        return NewsResponse.fromJson(response.data).articles;
+      } else {
+        throw ServerException(message: "Failed to filter news");
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  @override
+  Future<List<ArticleModel>> search(String query) async {
+    try {
+      final response = await dio.get(ApiEndoints.search(query));
+      if (response.statusCode == 200) {
+        return NewsResponse.fromJson(response.data).articles;
+      } else {
+        throw ServerException(message: "Failed to search news");
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
     }
   }
 }
