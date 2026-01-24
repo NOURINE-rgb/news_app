@@ -4,6 +4,7 @@ import 'package:clean_news_app/config/theme/values_manager.dart';
 import 'package:clean_news_app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData getAppTheme() => ThemeData(
       useMaterial3: true,
@@ -69,38 +70,35 @@ ThemeData getAppTheme() => ThemeData(
       ),
 
       // Input Decoration Theme
-      // inputDecorationTheme: InputDecorationTheme(
-      //   filled: true,
-      //   fillColor: AppColors.lightGrey,
-      //   contentPadding:
-      //       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      //   hintStyle: get16RegularStyle(
-      //     color: AppColors.textHint,
-      //   ),
-      //   labelStyle: get16RegularStyle(
-      //     color: AppColors.textSecondary,
-      //   ),
-      //   border: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //     borderSide: BorderSide.none,
-      //   ),
-      //   enabledBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //     borderSide: BorderSide.none,
-      //   ),
-      //   focusedBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //     borderSide: const BorderSide(color: AppColors.primary, width: 2),
-      //   ),
-      //   errorBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //     borderSide: const BorderSide(color: AppColors.error, width: 1),
-      //   ),
-      //   focusedErrorBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(12),
-      //     borderSide: const BorderSide(color: AppColors.error, width: 2),
-      //   ),
-      // ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.lightGrey,
+        
+        contentPadding: EdgeInsets.symmetric(horizontal: AppPadding.p16, vertical: AppPadding.p12).r,
+        hintStyle: get14RegularStyle(
+          color: AppColors.textHint,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12).r,
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12).r,
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12).r,
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12).r,
+          borderSide: const BorderSide(color: AppColors.error, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12).r,
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
+      ),
 
       iconTheme: const IconThemeData(
         color: AppColors.textSecondary,

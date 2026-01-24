@@ -5,7 +5,13 @@ class SearchLocalDatasource {
   final Box box;
   const SearchLocalDatasource(this.box);
   Future<void> addToHistory(String query) async {
-    
+    final historyList = getHistorySearch();
+    historyList.remove(query);
+    historyList.insert(0, query);
+    if (historyList.length > 10) {
+      historyList.removeLast();
+    }
+    await box.put(StorageKeys.searchHistory, historyList);
   }
 
   List<String> getHistorySearch() {

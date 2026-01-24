@@ -7,6 +7,6 @@ class SearchNewsUseCase {
   SearchNewsUseCase(this.repo);
 
   Future<Either<String, List<ArticleEntity>>> call(String query) async {
-    return repo.searchNews(query);
+    return await repo.searchNews(query);
   }
 }

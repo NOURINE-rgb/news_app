@@ -10,6 +10,13 @@ import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommen
 import 'package:clean_news_app/features/onboarding/usecaases/check_onboarding_seen.dart';
 import 'package:clean_news_app/features/onboarding/usecaases/set_seen.dart';
 import 'package:clean_news_app/features/search/data/local_data_source/search_local_datasource.dart';
+import 'package:clean_news_app/features/search/data/repositories/discover_repo_impl.dart';
+import 'package:clean_news_app/features/search/domain/repositories/discover_repo.dart';
+import 'package:clean_news_app/features/search/domain/usecases/add_history.dart';
+import 'package:clean_news_app/features/search/domain/usecases/filter_news_usecase.dart';
+import 'package:clean_news_app/features/search/domain/usecases/get_history_search_usecase.dart';
+import 'package:clean_news_app/features/search/domain/usecases/remove_history.dart';
+import 'package:clean_news_app/features/search/domain/usecases/search_news_usecase.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -80,7 +87,6 @@ Future<void> _setupDataSource() async {
       sl(),
     ),
   );
-
 }
 
 Future<void> _setupRepositories() async {
@@ -90,15 +96,21 @@ Future<void> _setupRepositories() async {
   sl.registerLazySingleton<BookmarkRepo>(
     () => BookmarkRepoImpl(localDataSource: sl()),
   );
+  sl.registerLazySingleton<DiscoverRepo>(() => DiscoverRepoImpl(
+        sl<NewsApiService>(),
+        sl<SearchLocalDatasource>(),
+      ));
 }
 
 Future<void> _setupUseCases() async {
+  // home
   sl.registerLazySingleton(
     () => GetRecomandedArticleUseCase(sl()),
   );
   sl.registerLazySingleton(
     () => GetBreakingNewsArticleUseCase(sl()),
   );
+  // onboarding
   sl.registerLazySingleton<SetOnboardingSeen>(
     () => SetOnboardingSeen(
       sl(),
@@ -121,5 +133,31 @@ Future<void> _setupUseCases() async {
   );
   sl.registerLazySingleton<CheckBookmarkStatusUseCase>(
     () => CheckBookmarkStatusUseCase(sl()),
+  );
+  // search
+  sl.registerLazySingleton<SearchNewsUseCase>(
+    () => SearchNewsUseCase(
+      sl(),
+    ),
+  );
+  sl.registerLazySingleton<FilterNewsUseCase>(
+    () => FilterNewsUseCase(
+      sl(),
+    ),
+  );
+  sl.registerLazySingleton<AddToHistoryUsecase>(
+    () => AddToHistoryUsecase(
+      sl(),
+    ),
+  );
+  sl.registerLazySingleton<RemoveFromHistoryUsecase>(
+    () => RemoveFromHistoryUsecase(
+      sl(),
+    ),
+  );
+  sl.registerLazySingleton<GetHistorySearchUsecase>(
+    () => GetHistorySearchUsecase(
+      sl(),
+    ),
   );
 }

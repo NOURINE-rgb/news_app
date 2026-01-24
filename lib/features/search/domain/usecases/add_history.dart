@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 class AddToHistoryUsecase {
   final DiscoverRepo repo;
   AddToHistoryUsecase(this.repo);
-  Future<Either<String ,List<String>>> call(String query) async {
-    return repo.addToHistory(query);
+  Future<Either<String ,void>> call(String query) async {
+    return await repo.addToHistory(query);
   }
 }

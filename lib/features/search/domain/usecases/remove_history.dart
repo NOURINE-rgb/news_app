@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 class RemoveFromHistoryUsecase {
   final DiscoverRepo repo;
   RemoveFromHistoryUsecase(this.repo);
-  Future<Either<String ,List<String>>> call(String query) async {
-    return repo.deleteFromHistory(query);
+  Future<Either<String ,void>> call(String query) async {
+    return await repo.deleteFromHistory(query);
   }
 }

@@ -6,6 +6,6 @@ class GetHistorySearchUsecase {
   final DiscoverRepo repo;
   GetHistorySearchUsecase(this.repo);
   Future<Either<String ,List<String>>> call() async {
-    return repo.getHisotrySearch();
+    return await repo.getHisotrySearch();
   }
 }

@@ -7,7 +7,7 @@ class FilterNewsUseCase {
   FilterNewsUseCase(this.repo);
 
   Future<Either<String,List<ArticleEntity>>> call(FilterNewsParams params) async {
-    return repo.filterNews(params);
+    return await repo.filterNews(params);
   }
 }
 

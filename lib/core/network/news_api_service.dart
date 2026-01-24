@@ -84,6 +84,7 @@ class NewsApiServiceImpl implements NewsApiService {
   }
 }
 
+
 ServerException _handleDioError(DioException e) {
   if (e.type == DioExceptionType.connectionTimeout ||
       e.type == DioExceptionType.receiveTimeout ||

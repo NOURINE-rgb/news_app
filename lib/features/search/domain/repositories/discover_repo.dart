@@ -8,6 +8,6 @@ abstract class DiscoverRepo {
   Future<Either<String, List<ArticleEntity>>> filterNews(
       FilterNewsParams params);
   Future<Either<String, List<String>>> getHisotrySearch();
-  Future<Either<String, List<String>>> addToHistory(String query);
-  Future<Either<String, List<String>>> deleteFromHistory(String query);
+  Future<Either<String, void>> addToHistory(String query);
+  Future<Either<String, void>> deleteFromHistory(String query);
 }
