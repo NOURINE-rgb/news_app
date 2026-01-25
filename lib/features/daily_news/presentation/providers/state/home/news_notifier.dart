@@ -3,7 +3,6 @@ import 'package:clean_news_app/features/daily_news/domain/use_cases/get_breaking
 import 'package:clean_news_app/features/daily_news/domain/use_cases/get_recommended_article.dart';
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/home/news_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../../../core/helpers/map_failure_message.dart';
 
 class NewsNotifier extends StateNotifier<NewsState> {

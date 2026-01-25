@@ -13,7 +13,7 @@ class ConstantsVar {
     "Recent",
     "Trending",
   ];
-  List<String> countries = [
+  static const List<String> countries = [
     'Algeria',
     'Palestine',
     'United States',
