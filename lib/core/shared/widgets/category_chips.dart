@@ -9,13 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoriesChips extends ConsumerWidget {
-  const CategoriesChips(
-      {super.key,
-      required this.categories,
-      required this.onCategorySelected,
-      required this.chipType});
+  const CategoriesChips({
+    super.key,
+    required this.categories,
+    required this.onCategorySelected,
+    required this.chipType,
+  });
+
   final List<String> categories;
-  final void Function(String cateogry) onCategorySelected;
+  final void Function(String category) onCategorySelected;
   final ChipType chipType;
 
   AutoDisposeStateProvider<int> _getProvider(ChipType chipType) {
@@ -33,8 +35,9 @@ class CategoriesChips extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AutoDisposeStateProvider<int> provider = _getProvider(chipType);
+    final provider = _getProvider(chipType);
     final selectedIdx = ref.watch(provider);
+
     return ChipList(
       listOfChipNames: categories,
       listOfChipIndicesCurrentlySelected: [selectedIdx],
@@ -47,8 +50,8 @@ class CategoriesChips extends ConsumerWidget {
       spacing: AppSize.s4.r,
       style: get16MediumStyle(color: AppColors.textOnPrimary),
       extraOnToggle: (index) {
-        onCategorySelected.call(categories[index]);
         ref.read(provider.notifier).state = index;
+        onCategorySelected(categories[index]);
       },
     );
   }

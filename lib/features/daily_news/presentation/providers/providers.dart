@@ -7,25 +7,23 @@ import 'package:clean_news_app/features/daily_news/presentation/providers/state/
 import 'package:clean_news_app/features/daily_news/presentation/providers/state/see_all/see_all_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final newsNotifierProvider = StateNotifierProvider<NewsNotifier, NewsState>(
-  (ref) {
-    return NewsNotifier(
-        sl<GetRecomandedArticleUseCase>(), sl<GetBreakingNewsArticleUseCase>());
-  },
+final newsNotifierProvider = StateNotifierProvider.autoDispose<NewsNotifier, NewsState>(
+  (ref) => NewsNotifier(
+    sl<GetRecomandedArticleUseCase>(),
+    sl<GetBreakingNewsArticleUseCase>(),
+  ),
 );
 
 final seeAllNotifierProvider =
-    StateNotifierProvider.family<SeeAllNotifier, SeeAllState, SeeAllParams>(
+    StateNotifierProvider.autoDispose.family<SeeAllNotifier, SeeAllState, SeeAllParams>(
   (ref, params) => SeeAllNotifier(
     params,
     sl<GetBreakingNewsArticleUseCase>(),
   ),
 );
 
-// category for home page
+// Category providers
 final selectedCategoryHomeProvider = StateProvider.autoDispose<int>((ref) => 0);
-// for the search page
-final selectedCategorySearchProvider =
-    StateProvider.autoDispose<int>((ref) => 0);
+final selectedCategorySearchProvider = StateProvider.autoDispose<int>((ref) => 0);
 final selectedCountryIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
 final selectedSortIndexProvider = StateProvider.autoDispose<int>((ref) => 0);

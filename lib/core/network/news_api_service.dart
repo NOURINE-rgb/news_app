@@ -42,6 +42,13 @@ class NewsApiServiceImpl implements NewsApiService {
       final response = await dio.get(ApiEndoints.recommended);
       if (response.statusCode == 200) {
         final newsResponse = NewsResponse.fromJson(response.data);
+        // If the primary query yields no articles, fall back to top-headlines
+        if (newsResponse.articles.isEmpty) {
+          final fallbackResponse = await dio.get(ApiEndoints.recommendedFallback);
+          if (fallbackResponse.statusCode == 200) {
+            return NewsResponse.fromJson(fallbackResponse.data).articles;
+          }
+        }
         return newsResponse.articles;
       } else {
         throw ServerException(
