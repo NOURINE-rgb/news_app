@@ -69,6 +69,6 @@ The app includes a powerful discovery experience with advanced filtering, search
 
 ```bash
 git fetch
-git checkout main
+git checkout master
 flutter pub get
 flutter run
